@@ -9,7 +9,7 @@ class CompilaCertificatoGUI(QDialog):
         loadUi("CompilaCertificatoGUI.ui", self)
         self.label_5=dottore
         self.lineEdit.setText(cliente)
-        self.stampa()
+        self.comboBox.addItems(['certificato agonistico','certificato malattia','certificato sana e robusta costituzione'])
 
     def stampa(self):
         self.show()

@@ -18,6 +18,9 @@ class DottoreGUI:
         self.CC=CartellaClinica()
         self.AggiornaCC=None
         self.VisualizzaCC=None
+        self.VisualizzaListaPren=None
+        self.CompilaCertificato=None
+        self.certificato=CertificatoMedico()
 
     def setUp(self):
         for prenotazione in sistema.listaPrenotazioni:
@@ -78,4 +81,28 @@ class DottoreGUI:
         self.VisualizzaCC=VisualizzaCCGUI(self.CC.patologie,self.clienteAttuale.nomeCognome)
         self.VisualizzaCC.show()
         self.VisualizzaCC.pushButton.clicked.connect(self.menu.show)
+
+    def visualizzaListaPren(self):
+        self.VisualizzaListaPren=VisualizzaTuttePrenotazioniGUI(self.listaPrenotazioniOggi)
+        self.VisualizzaListaPren.show()
+        self.visualizzaListaPren.pushButton.clicked.connect(self.menu.show)
+
+    def compilaCertificato(self):
+        self.CompilaCertificato=CompilaCertificatoGUI(self.clienteAttuale.nomeCognome,self.nomeCognome)
+        self.CompilaCertificato.show()
+        if self.CompilaCertificato.comboBox.currentText()=='certificato agonistico':
+            self.CompilaCertificato.label_6='50.00 €'
+        elif self.CompilaCertificato.comboBox.currentText() == 'certificato malattia':
+            self.CompilaCertificato.label_6 = '0.00 €'
+        else :
+            self.CompilaCertificato.label_6 = '100.00 €'
+        self.CompilaCertificato.pushButton.clicked.connect(self.stampaCertificato)
+        self.CompilaCertificato.pushButton_2.clicked.connect(self.menu.show)
+
+    def stampaCertificato(self):
+        self.certificato.compilaCertificato(self.clienteAttuale.nomeCognome,self.nomeCognome,datetime.datetime.today())
+        self.certificato.stampaCertificato()
+        self.menu.show()
+
+
 
