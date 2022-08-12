@@ -12,8 +12,12 @@ class DottoreGUI:
         self.OrarioLavoro = dottore.OrarioLavoro
         self.listaCartelleCliniche = dottore.listaCartelleCliniche
         self.sistema=Sistema()
-        self.menu=MenuDottoreGUI()
+        self.menu=None
         self.prenotazioneAttuale=None
+        self.ricetta=Ricetta()
+        self.ricettaGUI=None
+        self.CC=CartellaClinica()
+        self.AggiornaCC=None
 
     def setUp(self):
         for prenotazione in sistema.listaPrenotazioni:
@@ -41,9 +45,29 @@ class DottoreGUI:
                 else:
                     self.prenotazioneAttuale = None
                     self.clienteAttuale = None
-        if self.clienteAttuale!=None:
-            self.menu.label='Cliente attuale:' + self.clienteAttuale
-        else:
-            self.menu.label = 'Non ci sono altri appuntamenti'
+        self.menu=MenuDottoreGUI(self.clienteAttuale)
         #self.menu.show()
 
+    def compilaRicetta(self):
+        #self.menu.hide()
+        self.ricettaGUI=CompilaRicettaGUI(self.clienteAttuale,self.nomeCognome)
+        self.ricettaGUI.show()
+        self.ricettaGUI.pushButton.clicked.connect(self.inviaRicettaSegreteria)
+        self.ricettaGUI.pushButton_2.clicked.connect(self.menu.show)
+
+    def inviaRicettaSegreteria(self):
+        self.ricetta.farmacoPrescritto=self.ricettaGUI.textEdit.text()
+        self.ricetta.stampaRicetta()
+        self.menu.show()
+
+    def aggiornaCC(self):
+        self.CC.id=self.clienteAttuale.id
+        self.CC.patologie=self.CC.leggiCartella()
+        self.AggiornaCC=AggiornaCCGUI(self.CC.patologie)
+        self.AggiornaCC.show()
+        self.pushButton.clicked.connect(self.modificaCartella)
+
+    def modificaCartela(self):
+        self.CC.patologie=self.AggiornaCC.textEdit.text()
+        self.CC.stampaCartella()
+        self.menu.show()
