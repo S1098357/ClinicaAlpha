@@ -1,6 +1,5 @@
 import datetime
 
-
 class DottoreGUI:
 
     def __init__(self,dottore):
@@ -18,6 +17,7 @@ class DottoreGUI:
         self.ricettaGUI=None
         self.CC=CartellaClinica()
         self.AggiornaCC=None
+        self.VisualizzaCC=None
 
     def setUp(self):
         for prenotazione in sistema.listaPrenotazioni:
@@ -26,7 +26,7 @@ class DottoreGUI:
         self.listaPrenotazioniOggi=sorted(self.listaPrenotazioniOggi)
         self.clienteAttuale=self.listaPrenotazioniOggi[0].cliente
         self.prenotazioneAttuale=self.listaPrenotazioniOggi[0]
-        self.menu.label = 'Cliente attuale:' + self.clienteAttuale
+        self.menu.label = 'Cliente attuale:' + self.clienteAttuale.nomeCognome
         self.menu.show()
         self.menu.pushButton.clicked.connect(self.compilaCertificato)
         self.menu.pushButton_2.clicked.connect(self.compilaRicetta)
@@ -45,7 +45,7 @@ class DottoreGUI:
                 else:
                     self.prenotazioneAttuale = None
                     self.clienteAttuale = None
-        self.menu=MenuDottoreGUI(self.clienteAttuale)
+        self.menu=MenuDottoreGUI(self.clienteAttuale.nomeCognome)
         #self.menu.show()
 
     def compilaRicetta(self):
@@ -71,3 +71,11 @@ class DottoreGUI:
         self.CC.patologie=self.AggiornaCC.textEdit.text()
         self.CC.stampaCartella()
         self.menu.show()
+
+    def visualizzaCC(self):
+        self.CC.id = self.clienteAttuale.id
+        self.CC.patologie = self.CC.leggiCartella()
+        self.VisualizzaCC=VisualizzaCCGUI(self.CC.patologie,self.clienteAttuale.nomeCognome)
+        self.VisualizzaCC.show()
+        self.VisualizzaCC.pushButton.clicked.connect(self.menu.show)
+
