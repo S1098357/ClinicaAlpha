@@ -1,4 +1,12 @@
 import datetime
+from Servizio.Cliente import Cliente
+from Servizio.Dottore import Dottore
+from Servizio.CartellaClinica import CartellaClinica
+from Servizio.Ricetta import Ricetta
+from Servizio.CertificatoMedico import CertificatoMedico
+from Amministrazione.Sistema import Sistema
+from Amministrazione.Calendario import Calendario
+from GUI.MenuDottoreGUI import MenuDottoreGUI
 
 class DottoreGUI:
 
@@ -7,15 +15,16 @@ class DottoreGUI:
         self.clienteAttuale = Cliente()
         self.listaPrenotazioniOggi = dottore.listaPrenotazioniOggi
         self.nomeCognome = dottore.nomeCognome
-        self.numeroDiTelefono = dottore.numTelefono
+        self.numeroDiTelefono = dottore.numeroDiTelefono
+        self.calendario=Calendario()
         self.OrarioLavoro = dottore.OrarioLavoro
         self.listaCartelleCliniche = dottore.listaCartelleCliniche
-        self.sistema=Sistema()
+        self.sistema=Sistema(self.calendario.Dottori)
         self.menu=None
         self.prenotazioneAttuale=None
         self.ricetta=Ricetta()
         self.ricettaGUI=None
-        self.CC=CartellaClinica()
+        self.CC=CartellaClinica(0)
         self.AggiornaCC=None
         self.VisualizzaCC=None
         self.VisualizzaListaPren=None
@@ -23,20 +32,24 @@ class DottoreGUI:
         self.certificato=CertificatoMedico()
 
     def setUp(self):
-        for prenotazione in sistema.listaPrenotazioni:
+        for prenotazione in self.sistema.listaPrenotazioni:
             if prenotazione.dataOra.date==datetime.datetime.today() and prenotazione.dottore==self.nomeCognome:
                 self.listaPrenotazioniOggi.append(prenotazione)
-        self.listaPrenotazioniOggi=sorted(self.listaPrenotazioniOggi)
-        self.clienteAttuale=self.listaPrenotazioniOggi[0].cliente
-        self.prenotazioneAttuale=self.listaPrenotazioniOggi[0]
-        self.menu.label = 'Cliente attuale:' + self.clienteAttuale.nomeCognome
+        if self.listaPrenotazioniOggi!=[]:
+            self.listaPrenotazioniOggi=sorted(self.listaPrenotazioniOggi)
+            self.clienteAttuale=self.listaPrenotazioniOggi[0].cliente
+            self.prenotazioneAttuale=self.listaPrenotazioniOggi[0]
+            self.menu=MenuDottoreGUI(self.clienteAttuale.nomeCognome)
+        else:
+            self.menu=MenuDottoreGUI(None)
         self.menu.show()
-        self.menu.pushButton.clicked.connect(self.compilaCertificato)
-        self.menu.pushButton_2.clicked.connect(self.compilaRicetta)
-        self.menu.pushButton_3.clicked.connect(self.aggiornaCC)
-        self.menu.pushButton_4.clicked.connect(self.chiamaClienteSucc)
-        self.menu.pushButton_5.clicked.connect(self.visualizzaListaAppuntamenti)
-        self.menu.pushButton_6.clicked.connect(self.visualizzaCC)
+        if self.menu.label.text()!= 'Non ci sono altri appuntamenti':
+            self.menu.pushButton.clicked.connect(self.compilaCertificato)
+            self.menu.pushButton_2.clicked.connect(self.compilaRicetta)
+            self.menu.pushButton_3.clicked.connect(self.aggiornaCC)
+            self.menu.pushButton_4.clicked.connect(self.chiamaClienteSucc)
+            self.menu.pushButton_5.clicked.connect(self.visualizzaListaPren)
+            self.menu.pushButton_6.clicked.connect(self.visualizzaCC)
 
     def chiamaClienteSucc(self):
         #self.menu.hide()

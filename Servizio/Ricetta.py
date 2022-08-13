@@ -8,7 +8,7 @@ from Servizio.Documento import Documento
 class Ricetta(Documento):
 
     def __init__(self):
-        super().__init__(self)
+        super().__init__()
         self.farmacoPrescritto=''
 
     def compilaRicetta(self,farmacoPrescritto,nomePaziente,nomeCognomeDottore,dataRilascio):

@@ -2,7 +2,7 @@ import datetime
 
 class Documento:
     def __init__(self):
-        self.dataRilascio
+        self.dataRilascio=datetime
         self.nomeCognomeDottore=''
         self.nomePaziente=''
 

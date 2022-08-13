@@ -4,7 +4,7 @@ from Servizio.CertificatoMedico import CertificatoMedico
 class CertificatoSanaRobustaCostituzione(CertificatoMedico):
 
     def __init__(self):
-        super().__init__(self)
+        super().__init__()
         self.prezzo=100.00
 
     def compilaCertificato(self,nomePaziente,nomeCognomeDottore,dataRilascio):

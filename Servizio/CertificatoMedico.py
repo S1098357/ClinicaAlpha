@@ -6,7 +6,7 @@ from Servizio.Documento import Documento
 class CertificatoMedico(Documento):
 
     def __init__(self):
-        super().__init__(self)
+        super().__init__()
         self.prezzo=25
 
     def compilaCertificato(self,nomePaziente,nomeCognomeDottore,dataRilascio):

@@ -6,11 +6,11 @@ class MenuDottoreGUI(QDialog):
 
     def __init__(self,cliente):
         super(MenuDottoreGUI, self).__init__()
-        loadUi("MenuDottore.ui", self)
+        loadUi("GUI/Menu Dottore.ui", self)
         if cliente != None:
-            self.label = 'Cliente attuale:' + cliente
+            self.label.setText('Cliente attuale:' + cliente)
         else:
-            self.label = 'Non ci sono altri appuntamenti'
+            self.label.setText('Non ci sono altri appuntamenti')
 
     def stampa(self):
         self.show()
