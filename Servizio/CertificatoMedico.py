@@ -10,10 +10,10 @@ class CertificatoMedico(Documento):
         self.prezzo=25
 
     def compilaCertificato(self,nomePaziente,nomeCognomeDottore,dataRilascio):
-        self.CompilaDocumento(self,nomePaziente,nomeCognomeDottore,dataRilascio)
+        self.CompilaDocumento(nomePaziente,nomeCognomeDottore,dataRilascio)
 
     def stampaCertificato(self):
-        documento=self.StampaDocumento(self)
+        documento=self.StampaDocumento()
         documento['importoPagato']=self.prezzo
         #if os.path.isfile('dati/Certificati.pickle'):
         with open ('dati/Certificati.pickle' , 'wb+') as f:

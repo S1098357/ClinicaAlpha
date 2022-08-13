@@ -6,7 +6,7 @@ class CompilaCertificatoGUI(QDialog):
 
     def __init__(self,cliente,dottore):
         super(CompilaCertificatoGUI, self).__init__()
-        loadUi("CompilaCertificatoGUI.ui", self)
+        loadUi("GUI/Compila Certificato Medico.ui", self)
         self.label_5=dottore
         self.lineEdit.setText(cliente)
         self.comboBox.addItems(['certificato agonistico','certificato malattia','certificato sana e robusta costituzione'])

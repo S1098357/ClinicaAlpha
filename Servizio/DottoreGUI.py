@@ -5,6 +5,9 @@ from Servizio.CartellaClinica import CartellaClinica
 from Servizio.Ricetta import Ricetta
 from Servizio.CertificatoMedico import CertificatoMedico
 from Servizio.Prenotazione import Prenotazione
+from Servizio.CertificatoMalattia import CertificatoMalattia
+from Servizio.CertificatoSanaRobustaCostituzione import CertificatoSanaRobustaCostituzione
+from Servizio.CertificatoMedicoAgonistico import CertificatoMedicoAgonistico
 from Amministrazione.Sistema import Sistema
 from Amministrazione.Calendario import Calendario
 from GUI.MenuDottoreGUI import MenuDottoreGUI
@@ -36,7 +39,8 @@ class DottoreGUI:
         self.VisualizzaCC=None
         self.VisualizzaListaPren=None
         self.CompilaCertificato=None
-        self.certificato=CertificatoMedico()
+        self.certificato=None
+        self.tipoCertificato=''
 
         self.prenotazioneProva=Prenotazione()
         self.prenotazioneProva.dottore=Dottore('Enrico Corradini','3333333333')
@@ -68,29 +72,29 @@ class DottoreGUI:
             self.menu.pushButton_6.clicked.connect(self.visualizzaCC)
 
     def chiamaClienteSucc(self):
-        #self.menu.hide()
+        self.menu.hide()
         for prenotazione in self.listaPrenotazioniOggi:
             if prenotazione==self.prenotazioneAttuale:
-                if self.listaPrenotazioniOggi[self.prenotazioneAttuale.index()+1]!=None:
-                    self.prenotazioneAttuale=self.listaPrenotazioniOggi[self.prenotazioneAttuale.index()+1]
+                if self.listaPrenotazioniOggi.index(self.prenotazioneAttuale)+1!=len(self.listaPrenotazioniOggi):
+                    self.prenotazioneAttuale=self.listaPrenotazioniOggi[self.listaPrenotazioniOggi.index(self.prenotazioneAttuale)+1]
                     self.clienteAttuale=self.prenotazioneAttuale.cliente
                     self.menu = MenuDottoreGUI(self.clienteAttuale.nomeCognome)
                 else:
                     self.prenotazioneAttuale = None
                     self.clienteAttuale = None
                     self.menu=MenuDottoreGUI(None)
-        #self.menu.show()
+        self.menu.show()
 
     def compilaRicetta(self):
         self.menu.hide()
-        self.ricettaGUI=CompilaRicettaGUI(self.clienteAttuale,self.nomeCognome)
+        self.ricettaGUI=CompilaRicettaGUI(self.clienteAttuale.nomeCognome,self.nomeCognome)
         self.ricettaGUI.show()
         self.ricettaGUI.pushButton.clicked.connect(self.inviaRicettaSegreteria)
         self.ricettaGUI.pushButton_2.clicked.connect(self.menu.show)
 
     def inviaRicettaSegreteria(self):
         self.ricettaGUI.hide()
-        self.ricetta.farmacoPrescritto=self.ricettaGUI.textEdit.text()
+        self.ricetta.compilaRicetta(self.ricettaGUI.textEdit.toPlainText(),self.clienteAttuale.nomeCognome,self.nomeCognome,datetime.datetime.now())
         self.ricetta.stampaRicetta()
         self.menu.show()
 
@@ -123,17 +127,18 @@ class DottoreGUI:
     def compilaCertificato(self):
         self.CompilaCertificato=CompilaCertificatoGUI(self.clienteAttuale.nomeCognome,self.nomeCognome)
         self.CompilaCertificato.show()
-        if self.CompilaCertificato.comboBox.currentText()=='certificato agonistico':
-            self.CompilaCertificato.label_6='50.00 €'
-        elif self.CompilaCertificato.comboBox.currentText() == 'certificato malattia':
-            self.CompilaCertificato.label_6 = '0.00 €'
-        else :
-            self.CompilaCertificato.label_6 = '100.00 €'
+        self.tipoCertificato=self.CompilaCertificato.comboBox.currentText()
         self.CompilaCertificato.pushButton.clicked.connect(self.stampaCertificato)
         self.CompilaCertificato.pushButton_2.clicked.connect(self.chiudiTutto)
 
     def stampaCertificato(self):
         self.CompilaCertificato.hide()
+        if self.tipoCertificato=='certificato agonistico':
+            self.certificato=CertificatoMedicoAgonistico()
+        if self.tipoCertificato=='certificato malattia':
+            self.certificato=CertificatoMalattia()
+        else:
+            self.certificato=CertificatoSanaRobustaCostituzione()
         self.certificato.compilaCertificato(self.clienteAttuale.nomeCognome,self.nomeCognome,datetime.datetime.today())
         self.certificato.stampaCertificato()
         self.menu.show()

@@ -8,10 +8,10 @@ class CompilaRicettaGUI(QDialog):
 
     def __init__(self,dottore,cliente):
         super(CompilaRicettaGUI, self).__init__()
-        loadUi("CompilaRicetta.ui", self)
-        self.label_2 = cliente
-        self.label_5=dottore
-        self.label_7=datetime.datetime.today()
+        loadUi("GUI/CompilaRicetta.ui", self)
+        self.label_2.setText(cliente)
+        self.label_5.setText(dottore)
+        self.label_7.setText(datetime.datetime.today().strftime("%m/%d/%Y, %H:%M:%S"))
 
     def stampa(self):
         self.show()

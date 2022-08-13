@@ -12,11 +12,11 @@ class Ricetta(Documento):
         self.farmacoPrescritto=''
 
     def compilaRicetta(self,farmacoPrescritto,nomePaziente,nomeCognomeDottore,dataRilascio):
-        self.CompilaDocumento(self=self,nomePaziente=nomePaziente, nomeCognomeDottore=nomeCognomeDottore, dataRilascio=dataRilascio)
+        self.CompilaDocumento(nomePaziente=nomePaziente, nomeCognomeDottore=nomeCognomeDottore, dataRilascio=dataRilascio)
         self.farmacoPrescritto=farmacoPrescritto
 
     def stampaRicetta(self):
-        ricetta=self.StampaDocumento(self)
+        ricetta=self.StampaDocumento()
         ricetta['farmaco prescritto']=self.farmacoPrescritto
        # if os.path.isfile('dati/Ricetta.pickle'):
         with open ('dati/Ricetta.pickle', 'wb+') as f:

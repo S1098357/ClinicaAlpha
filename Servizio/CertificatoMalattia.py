@@ -8,7 +8,7 @@ class CertificatoMalattia(CertificatoMedico):
         self.prezzo=0.00
 
     def compilaCertificato(self,nomePaziente,nomeCognomeDottore,dataRilascio):
-        super().compilaCertificato(self,nomePaziente,nomeCognomeDottore,dataRilascio)
+        super().compilaCertificato(nomePaziente,nomeCognomeDottore,dataRilascio)
 
     def stampaCertificato(self):
-        super().stampaCertificato(self)
+        super().stampaCertificato()
