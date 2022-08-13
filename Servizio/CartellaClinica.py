@@ -20,6 +20,6 @@ class CartellaClinica:
     def leggiCartella(self):
         if os.path.isfile('dati/CC/cartella'+str(self.id)+'.pickle'):
             with open('dati/CC/cartella'+str(self.id)+'.pickle', 'rb') as f:
-                return 'patologie: \n'+str(pickle.load(f))
+                return pickle.load(f)
         else:
             return False

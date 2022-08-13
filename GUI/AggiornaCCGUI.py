@@ -6,8 +6,8 @@ class AggiornaCCGUI(QDialog):
 
     def __init__(self,patologie):
         super(AggiornaCCGUI, self).__init__()
-        loadUi("AggiornaCC.ui", self)
-        self.textEdit.text=patologie
+        loadUi("GUI/AggiornaCC.ui", self)
+        self.textEdit.setText(patologie)
 
     def stampa(self):
         self.show()

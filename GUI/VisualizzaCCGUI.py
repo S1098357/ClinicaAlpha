@@ -6,9 +6,9 @@ class VisualizzaCCGUI(QDialog):
 
     def __init__(self,patologie,cliente):
         super(VisualizzaCCGUI, self).__init__()
-        loadUi("VisualizzaCC.ui", self)
-        self.label_2=cliente
-        self.textEdit.text=patologie
+        loadUi("GUI/VisualizzaCC.ui", self)
+        self.label_2.setText(cliente)
+        self.textBrowser.setText(patologie)
 
     def stampa(self):
         self.show()
