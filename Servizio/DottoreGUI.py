@@ -98,7 +98,7 @@ class DottoreGUI:
             for cliente in self.segreteria.listaClienti:
                 if self.prenotazioneAttuale.cliente == cliente.nomeCognome:
                     self.clienteAttuale = cliente
-            self.menu.label.setText(self.clienteAttuale.nomeCognome)
+            self.menu.label.setText('Cliente attuale:'+self.clienteAttuale.nomeCognome)
             self.menu.show()
         else:
             self.prenotazioneAttuale = None
