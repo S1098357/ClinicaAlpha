@@ -10,13 +10,14 @@ from Servizio.CertificatoSanaRobustaCostituzione import CertificatoSanaRobustaCo
 from Servizio.CertificatoMedicoAgonistico import CertificatoMedicoAgonistico
 from Amministrazione.Sistema import Sistema
 from Amministrazione.Calendario import Calendario
+from Amministrazione.Segreteria import Segreteria
 from GUI.MenuDottoreGUI import MenuDottoreGUI
 from GUI.VisualizzaTuttePrenotazioniGUI import VisualizzaTuttePrenotazioniGUI
 from GUI.VisualizzaCCGUI import VisualizzaCCGUI
 from GUI.CompilaCertificatoGUI import CompilaCertificatoGUI
 from GUI.CompilaRicettaGUI import CompilaRicettaGUI
 from GUI.AggiornaCCGUI import AggiornaCCGUI
-from Amministrazione.Segreteria import Segreteria
+from GUI.MenuDottoreNullo import MenuDottoreNullo
 
 
 class DottoreGUI:
@@ -45,6 +46,7 @@ class DottoreGUI:
         self.tipoCertificato=''
         self.segreteria=Segreteria()
         self.segreteria.leggiClienti()
+        self.menuNullo=MenuDottoreNullo()
 
         #self.prenotazioneProva=Prenotazione()
         #self.prenotazioneProva.dottore=Dottore('Enrico Corradini','3333333333')
@@ -76,19 +78,18 @@ class DottoreGUI:
             #self.listaPrenotazioniOggi=sorted(self.listaPrenotazioniOggi)
             self.prenotazioneAttuale=self.listaPrenotazioniOggi[0]
             self.menu=MenuDottoreGUI(self.clienteAttuale.nomeCognome)
+            self.Menu()
         else:
-            self.menu=MenuDottoreGUI(None)
-        self.Menu()
+            self.menuNullo.show()
 
     def Menu(self):
         self.menu.show()
-        if self.menu.label.text()!= 'Non ci sono altri appuntamenti':
-            self.menu.pushButton.clicked.connect(self.compilaCertificato)
-            self.menu.pushButton_2.clicked.connect(self.compilaRicetta)
-            self.menu.pushButton_3.clicked.connect(self.aggiornaCC)
-            self.menu.pushButton_4.clicked.connect(self.chiamaClienteSucc)
-            self.menu.pushButton_5.clicked.connect(self.visualizzaListaPren)
-            self.menu.pushButton_6.clicked.connect(self.visualizzaCC)
+        self.menu.pushButton.clicked.connect(self.compilaCertificato)
+        self.menu.pushButton_2.clicked.connect(self.compilaRicetta)
+        self.menu.pushButton_3.clicked.connect(self.aggiornaCC)
+        self.menu.pushButton_4.clicked.connect(self.chiamaClienteSucc)
+        self.menu.pushButton_5.clicked.connect(self.visualizzaListaPren)
+        self.menu.pushButton_6.clicked.connect(self.visualizzaCC)
 
     def chiamaClienteSucc(self):
         self.menu.hide()
@@ -98,11 +99,11 @@ class DottoreGUI:
                 if self.prenotazioneAttuale.cliente == cliente.nomeCognome:
                     self.clienteAttuale = cliente
             self.menu.label.setText(self.clienteAttuale.nomeCognome)
+            self.menu.show()
         else:
             self.prenotazioneAttuale = None
             self.clienteAttuale = None
-            self.menu.label.setText('Non ci sono altri appuntamenti')
-        self.menu.show()
+            self.menuNullo.show()
 
     def compilaRicetta(self):
         self.menu.hide()
