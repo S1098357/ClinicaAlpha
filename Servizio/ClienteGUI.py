@@ -18,14 +18,14 @@ from Servizio.Prenotazione import Prenotazione
 
 class ClienteGUI:
 
-    def __init__(self,cliente):
+    def __init__(self,cliente,id):
         self.nomeCognome = cliente.nomeCognome
         self.nomeDottore = cliente.nomeDottore
         self.password = cliente.password
         self.email = cliente.email
         self.numeroDiTelefono = cliente.numeroDiTelefono
         self.codiceFiscale = cliente.codiceFiscale
-        self.id = cliente.id
+        self.id = id
         self.dottore=None
         self.prenotazione=Prenotazione()
 #        self.messaggio = cliente.messaggio
@@ -103,6 +103,7 @@ class ClienteGUI:
         self.codiceFiscale = self.reg.lineEdit_4.text()
         self.CC.patologie = self.reg.textEdit.toPlainText()
         self.reg.hide()
+        self.cliente.id=self.id
         #self.reg.close()
         if self.cliente.inserisciEmail(self.email)==True and self.cliente.inserisciNumeroDiTelefono(self.numeroDiTelefono)==True and self.cliente.inserisciCodiceFiscale(self.codiceFiscale)==True and self.cliente.inserisciNomeCognome(self.nomeCognome)==True:
             self.CC.stampaCartella()

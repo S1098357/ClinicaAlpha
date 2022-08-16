@@ -26,12 +26,17 @@ class LoginGUI(QDialog):
         self.username=None
         self.password=None
         self.risposta=None
+        self.idAttuale=0
 
     def login(self):
         if self.segreteria.leggiClienti()==False:
             self.clienteGUI=ClienteGUI(self.cliente)
             self.clienteGUI.registrazioneDati()
         else:
+            for cliente in self.segreteria.listaClienti:
+                if cliente.id>self.idAttuale:
+                    self.idAttuale=cliente.id
+            self.idAttuale+=1
             self.GUI()
 
     def GUI(self):
@@ -52,7 +57,7 @@ class LoginGUI(QDialog):
         self.password = None
         self.accesso = True
         self.hide()
-        self.clienteGUI = ClienteGUI(self.cliente)
+        self.clienteGUI = ClienteGUI(self.cliente,self.idAttuale)
         self.clienteGUI.registrazioneDati()
 
     def prosegui(self):
@@ -69,7 +74,7 @@ class LoginGUI(QDialog):
             if self.username == cliente.nomeCognome and self.password == cliente.password:
                 self.accesso = 'cliente'
                 self.cliente = cliente
-                self.clienteGUI = ClienteGUI(self.cliente)
+                self.clienteGUI = ClienteGUI(self.cliente,self.cliente.id)
                 self.clienteGUI.menuClienteDati()
         if self.accesso==None:
             self.show()
