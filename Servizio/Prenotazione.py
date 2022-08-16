@@ -1,6 +1,5 @@
 import datetime
 
-
 class Prenotazione:
 
     def __init__(self):

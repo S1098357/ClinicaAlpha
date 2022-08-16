@@ -16,6 +16,7 @@ from GUI.VisualizzaCCGUI import VisualizzaCCGUI
 from GUI.CompilaCertificatoGUI import CompilaCertificatoGUI
 from GUI.CompilaRicettaGUI import CompilaRicettaGUI
 from GUI.AggiornaCCGUI import AggiornaCCGUI
+from Amministrazione.Segreteria import Segreteria
 
 
 class DottoreGUI:
@@ -30,6 +31,7 @@ class DottoreGUI:
         self.OrarioLavoro = dottore.OrarioLavoro
         self.listaCartelleCliniche = dottore.listaCartelleCliniche
         self.sistema=Sistema(self.calendario.Dottori)
+        self.sistema.leggiPrenotazioni()
         self.menu=None
         self.prenotazioneAttuale=None
         self.ricetta=Ricetta()
@@ -41,27 +43,44 @@ class DottoreGUI:
         self.CompilaCertificato=None
         self.certificato=None
         self.tipoCertificato=''
+        self.segreteria=Segreteria()
+        self.segreteria.leggiClienti()
 
-        self.prenotazioneProva=Prenotazione()
-        self.prenotazioneProva.dottore=Dottore('Enrico Corradini','3333333333')
-        self.prenotazioneProva.dataOra=datetime.datetime(2022,8,13,10,0)
-        self.clienteProva=Cliente()
-        self.clienteProva.nomeCognome='miao'
-        self.clienteProva.id=0
-        self.prenotazioneProva.cliente=self.clienteProva
+        #self.prenotazioneProva=Prenotazione()
+        #self.prenotazioneProva.dottore=Dottore('Enrico Corradini','3333333333')
+        #self.prenotazioneProva.dataOra=datetime.datetime(2022,8,13,10,0)
+        #self.clienteProva=Cliente()
+        #self.clienteProva.nomeCognome='miao'
+        #self.clienteProva.id=0
+        #self.prenotazioneProva.cliente=self.clienteProva
 
     def setUp(self):
         for prenotazione in self.sistema.listaPrenotazioni:
-            if prenotazione.dataOra.date==datetime.datetime.today() and prenotazione.dottore==self.nomeCognome:
+            if prenotazione.dataOra.date()==datetime.date.today() and prenotazione.dottore==self.nomeCognome:
                 self.listaPrenotazioniOggi.append(prenotazione)
-        self.listaPrenotazioniOggi.append(self.prenotazioneProva)
+        #self.listaPrenotazioniOggi.append(self.prenotazioneProva)
         if self.listaPrenotazioniOggi!=[]:
-            self.listaPrenotazioniOggi=sorted(self.listaPrenotazioniOggi)
-            self.clienteAttuale=self.listaPrenotazioniOggi[0].cliente
+            listaOrari=[]
+            listaOrdinata=[]
+            for prenotazione in self.listaPrenotazioniOggi:
+                listaOrari.append(prenotazione.dataOra.time())
+                listaOrari=sorted(listaOrari)
+            for orario in listaOrari:
+                for prenotazione in self.listaPrenotazioniOggi:
+                    if prenotazione.dataOra.time()==orario:
+                        listaOrdinata.append(prenotazione)
+            self.listaPrenotazioniOggi=listaOrdinata
+            for cliente in self.segreteria.listaClienti:
+                if self.listaPrenotazioniOggi[0].cliente==cliente.nomeCognome:
+                    self.clienteAttuale=cliente
+            #self.listaPrenotazioniOggi=sorted(self.listaPrenotazioniOggi)
             self.prenotazioneAttuale=self.listaPrenotazioniOggi[0]
             self.menu=MenuDottoreGUI(self.clienteAttuale.nomeCognome)
         else:
             self.menu=MenuDottoreGUI(None)
+        self.Menu()
+
+    def Menu(self):
         self.menu.show()
         if self.menu.label.text()!= 'Non ci sono altri appuntamenti':
             self.menu.pushButton.clicked.connect(self.compilaCertificato)
@@ -73,16 +92,16 @@ class DottoreGUI:
 
     def chiamaClienteSucc(self):
         self.menu.hide()
-        for prenotazione in self.listaPrenotazioniOggi:
-            if prenotazione==self.prenotazioneAttuale:
-                if self.listaPrenotazioniOggi.index(self.prenotazioneAttuale)+1!=len(self.listaPrenotazioniOggi):
-                    self.prenotazioneAttuale=self.listaPrenotazioniOggi[self.listaPrenotazioniOggi.index(self.prenotazioneAttuale)+1]
-                    self.clienteAttuale=self.prenotazioneAttuale.cliente
-                    self.menu = MenuDottoreGUI(self.clienteAttuale.nomeCognome)
-                else:
-                    self.prenotazioneAttuale = None
-                    self.clienteAttuale = None
-                    self.menu=MenuDottoreGUI(None)
+        if self.listaPrenotazioniOggi.index(self.prenotazioneAttuale)+1!=len(self.listaPrenotazioniOggi):
+            self.prenotazioneAttuale=self.listaPrenotazioniOggi[self.listaPrenotazioniOggi.index(self.prenotazioneAttuale)+1]
+            for cliente in self.segreteria.listaClienti:
+                if self.prenotazioneAttuale.cliente == cliente.nomeCognome:
+                    self.clienteAttuale = cliente
+            self.menu.label.setText(self.clienteAttuale.nomeCognome)
+        else:
+            self.prenotazioneAttuale = None
+            self.clienteAttuale = None
+            self.menu.label.setText('Non ci sono altri appuntamenti')
         self.menu.show()
 
     def compilaRicetta(self):
