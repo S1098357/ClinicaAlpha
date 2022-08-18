@@ -17,6 +17,11 @@ class SegreteriaGUI:
         self.VisualizzaEliminaPrenGUI=None
         self.visualizzaListaPrenGUI=None
         self.eliminaPrenGUI=None
+        self.menuStampaGUI=None
+        self.ricetta=Ricetta()
+        self.stampaRicettaGUI=None
+        self.certificato=Certificato()
+        self.stampaCertificatoGUI=None
 
     def Menu(self):
         self.menu.show()
@@ -45,7 +50,34 @@ class SegreteriaGUI:
         self.menu.show()
 
     def stampaDocumenti(self):
-        pass
+        self.menuStampaGUI=MenuStampaGUI()
+        self.menuStampaGUI.show()
+        self.menuStampaGUI.pushButton.clicked.connect(self.stampaRicetta)
+        self.menuStampaGUI.pushButton_2.clicked.connect(self.stampaCertificato)
+        self.menuStampaGUI.pushButton_3.clicked.connect(self.chiudiTutto)
+
+    def stampaRicetta(self):
+        if self.segreteria.leggiRicetta!=False:
+            self.ricetta=self.segreteria.leggiRicetta()
+            self.stampaRicettaGUI = VisualizzaRicettaGUI(self.ricetta)
+            self.stampaRicettaGUI.show()
+            self.stampaRicettaGUI.pushButton.clicked.connect(self.chiudiTutto)
+        else:
+            self.chiudiTutto()
+
+    def stampaCertificato(self):
+        if self.segreteria.leggiCertificato != False:
+            self.certificato=self.segreteria.leggiCertificato
+            self.stampaCertificatoGUI=VisualizzaCertificatoGUI(self.certificato)
+            if self.certificato.prezzo==50.00:
+                self.stampaCertificatoGUI.textBrowser.setText('Si attesta l''idoneità fisica del paziente allo sport agonistico')
+            if self.certificato.prezzo==0:
+                self.stampaCertificatoGUI.textBrowser.setText('Si attesta lo stato di malattia del paziente')
+            else:
+                self.stampaCertificatoGUI.textBrowser.setText('Si attesta lo stato di buona salute del paziente')
+                self.stampaCertificatoGUI.pushButton.clicked.connect(self.chiudiTutto)
+        else:
+            self.chiudiTutto()
 
     def visualizzaEliminaPren(self):
         self.VisualizzaEliminaPrenGUI=VisualizzaEliminaPrenGUI()

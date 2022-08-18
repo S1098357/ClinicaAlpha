@@ -193,10 +193,9 @@ class Segreteria:
         if os.path.isfile('dati/Ricetta.pickle'):
             with open('dati/Ricetta.pickle', 'rb+') as f:
                 ricetta = pickle.load(f)
-            StampaRicettaGUI(ricetta)
-            self.menuSegreteria()
+            return ricetta
         else :
-            self.errore()
+            return False
 
     def visualizzaCliente(self):
         risposta=SceltaVisualizzaClienteGUI()

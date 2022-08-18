@@ -20,7 +20,7 @@ class Ricetta(Documento):
         ricetta['farmaco prescritto']=self.farmacoPrescritto
        # if os.path.isfile('dati/Ricetta.pickle'):
         with open ('dati/Ricetta.pickle', 'wb+') as f:
-                pickle.dump(ricetta,f,pickle.HIGHEST_PROTOCOL)
+                pickle.dump(self,f,pickle.HIGHEST_PROTOCOL)
       #  else:
         #    with open ("dati/Ricetta.pickle", 'xb') as f:
          #    pickle.dump(ricetta,f,pickle.HIGHEST_PROTOCOL)
