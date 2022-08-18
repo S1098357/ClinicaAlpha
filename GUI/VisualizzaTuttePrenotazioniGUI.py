@@ -8,7 +8,7 @@ class VisualizzaTuttePrenotazioniGUI(QDialog):
         loadUi("GUI/VisualizzaTuttePrenotazioniGUI.ui", self)
         lista=''
         for prenotazione in listaPrenotazioni:
-            lista += prenotazione.dataOra.strftime('%y-%m-%d %H:%M') + '\n'
+            lista += prenotazione.cliente+' : '+ prenotazione.dataOra.strftime('%y-%m-%d %H:%M') + '\n'
         self.textBrowser.setText(lista)
 
     def stampa(self):

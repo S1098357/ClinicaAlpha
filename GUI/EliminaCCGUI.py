@@ -6,9 +6,8 @@ class EliminaCCGUI(QDialog):
 
     def __init__(self,listaCartelle):
         super(EliminaCCGUI, self).__init__()
-        loadUi("EliminaCCGUI.ui", self)
-        self.comboBox.addItems(listaCartelle.Id)
-        self.stampa()
+        loadUi("GUI/EliminaCCGUI.ui", self)
+        self.comboBox.addItems(listaCartelle)
 
     def stampa(self):
         self.show()

@@ -6,8 +6,7 @@ class MenuSegreteriaGUI(QDialog):
 
     def __init__(self):
         super(MenuSegreteriaGUI, self).__init__()
-        loadUi("MenuSegreteriaGUI.ui", self)
-        self.stampa()
+        loadUi("GUI/MenuSegreteriaGUI.ui", self)
 
     def stampa(self):
         self.show()

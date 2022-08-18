@@ -7,59 +7,59 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>267</height>
+    <height>130</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Elimina Cartella Clinica</string>
   </property>
+  <widget class="QComboBox" name="comboBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>40</y>
+     <width>351</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>70</y>
-     <width>321</width>
+     <y>10</y>
+     <width>141</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>Seleziona l'ID della cartella clinica che si vuole eliminare:</string>
+    <string>Cartella Clinica:</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>290</x>
-     <y>200</y>
-     <width>93</width>
-     <height>28</height>
+     <x>320</x>
+     <y>100</y>
+     <width>75</width>
+     <height>23</height>
     </rect>
    </property>
    <property name="text">
-    <string>Elimina</string>
+    <string>OK</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>200</y>
-     <width>93</width>
-     <height>28</height>
+     <x>230</x>
+     <y>100</y>
+     <width>75</width>
+     <height>23</height>
     </rect>
    </property>
    <property name="text">
     <string>Indietro</string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="comboBox">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>130</y>
-     <width>341</width>
-     <height>22</height>
-    </rect>
    </property>
   </widget>
  </widget>
