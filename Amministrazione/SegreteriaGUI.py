@@ -22,6 +22,7 @@ class SegreteriaGUI:
         self.stampaRicettaGUI=None
         self.certificato=Certificato()
         self.stampaCertificatoGUI=None
+        self.richiediPagamentoGUI=None
 
     def Menu(self):
         self.menu.show()
@@ -50,6 +51,7 @@ class SegreteriaGUI:
         self.menu.show()
 
     def stampaDocumenti(self):
+        self.menu.hide()
         self.menuStampaGUI=MenuStampaGUI()
         self.menuStampaGUI.show()
         self.menuStampaGUI.pushButton.clicked.connect(self.stampaRicetta)
@@ -57,6 +59,7 @@ class SegreteriaGUI:
         self.menuStampaGUI.pushButton_3.clicked.connect(self.chiudiTutto)
 
     def stampaRicetta(self):
+        self.menuStampaGUI.hide()
         if self.segreteria.leggiRicetta!=False:
             self.ricetta=self.segreteria.leggiRicetta()
             self.stampaRicettaGUI = VisualizzaRicettaGUI(self.ricetta)
@@ -66,6 +69,7 @@ class SegreteriaGUI:
             self.chiudiTutto()
 
     def stampaCertificato(self):
+        self.menuStampaGUI.hide()
         if self.segreteria.leggiCertificato != False:
             self.certificato=self.segreteria.leggiCertificato
             self.stampaCertificatoGUI=VisualizzaCertificatoGUI(self.certificato)
@@ -80,6 +84,7 @@ class SegreteriaGUI:
             self.chiudiTutto()
 
     def visualizzaEliminaPren(self):
+        self.menu.hide()
         self.VisualizzaEliminaPrenGUI=VisualizzaEliminaPrenGUI()
         self.VisualizzaEliminaPrenGUI.show()
         self.VisualizzaEliminaPrenGUI.pushButton.clicked.connect(self.visualizzaPren)
@@ -112,6 +117,18 @@ class SegreteriaGUI:
                 sistema.listaPrenotazioni.remove(prenotazione)
         self.sistema.salvaPrenotazioni()
         self.menu.show()
+
+    def richiediPagamento(self):
+        self.menu.hide()
+        if self.segreteria.leggiCertificato != False:
+            self.certificato=self.segreteria.leggiCertificato
+            self.richiediPagamentoGUI=self.richiediPagamentoGUI(self.certificato.prezzo)
+            self.richiediPagamentoGUI.show()
+            self.richiediPagamentoGUI.pushButton.clicked.connect(self.chiudiTutto)
+        else:
+            self.chiudiTutto()
+
+
 
 
 
