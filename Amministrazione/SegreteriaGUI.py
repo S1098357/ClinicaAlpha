@@ -29,6 +29,7 @@ class SegreteriaGUI:
         self.CCScelta=CartellaClinica()
         self.modificaClienteGUI=None
         self.appoggioNome=''
+        self.visualizzaClienteGUI=None
 
     def Menu(self):
         self.menu.show()
@@ -195,7 +196,27 @@ class SegreteriaGUI:
         for cliente in self.listaClienti:
             if cliente.nomeCognome==self.appoggioNome:
                 self.clienteScelto=cliente
+        self.visualizzaClienteGUI=VisualizzaClienteGUI(self.clienteScelto)
+        self.visualizzaClienteGUI.show()
+        self.visualizzaClienteGUI.pushButton.clicked.connect(self.chiudiTutto)
 
+    def eliminaClienteSel(self):
+        self.RUDClienteGUI.close()
+        lista = []
+        for cliente in self.listaClienti:
+            lista.append(cliente.nomeCognome)
+        self.sceltaClienteGUI = SceltaClienteGUI(lista)
+        self.sceltaClienteGUI.show()
+        self.sceltaClienteGUI.pushButton.clicked.connect(self.chiudiTutto)
+        self.sceltaClienteGUI.pushButton_2.clicked.connect(self.eliminaCliente)
+
+    def eliminaCliente(self):
+        for cliente in self.listaClienti:
+            if self.clienteScelto.nomeCognome==cliente.nomeCognome:
+                self.listaClienti.remove(cliente)
+        self.segreteria.listaClienti = self.listaClienti
+        self.segreteria.salvaClienti()
+        self.menu.show()
 
 
 
