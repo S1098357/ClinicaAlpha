@@ -4,20 +4,11 @@ from PyQt5.uic import loadUi
 
 class ModificaClienteGUI(QDialog):
 
-    def __init__(self):
+    def __init__(self,cliente,cartellaClinica):
         super(ModificaClienteGUI, self).__init__()
-        loadUi("ModificaClienteGUI.ui", self)
-        self.stampa()
+        loadUi("GUI/ModificaClienteGUI.ui", self)
+        self.lineEdit.setText(cliente.nomeCognome)
+        self.lineEdit_2.setText(cliente.email)
+        self.lineEdit_3.setText(cliente.numeroDiTelefono)
+        self.textEdit.setText(cartellaClinica.patologie)
 
-    def stampa(self):
-        self.show()
-        self.pushButton.clicked.connect(self.avanti)
-        self.pushButton_2.clicked.connect(self.indietro)
-
-    def avanti(self):
-        self.close()
-        return self.lineEdit.text(), self.lineEdit_2.text(), self.lineEdit_3.text()
-
-    def indietro(self):
-        self.close()
-        return None,None,None

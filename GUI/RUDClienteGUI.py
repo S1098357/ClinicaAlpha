@@ -6,8 +6,7 @@ class RUDClienteGUI(QDialog):
 
     def __init__(self):
         super(RUDClienteGUI, self).__init__()
-        loadUi("RUDClienteGUI.ui", self)
-        self.stampa()
+        loadUi("GUI/VisualizzaEliminaModificaCliente.ui", self)
 
     def stampa(self):
         self.show()

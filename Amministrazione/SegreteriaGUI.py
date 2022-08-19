@@ -23,6 +23,12 @@ class SegreteriaGUI:
         self.certificato=Certificato()
         self.stampaCertificatoGUI=None
         self.richiediPagamentoGUI=None
+        self.RUDClienteGUI=None
+        self.sceltaClienteGUI=None
+        self.clienteScelto=Cliente()
+        self.CCScelta=CartellaClinica()
+        self.modificaClienteGUI=None
+        self.appoggioNome=''
 
     def Menu(self):
         self.menu.show()
@@ -127,6 +133,71 @@ class SegreteriaGUI:
             self.richiediPagamentoGUI.pushButton.clicked.connect(self.chiudiTutto)
         else:
             self.chiudiTutto()
+
+    def RUDCliente(self):
+        self.menu.hide()
+        self.RUDClienteGUI=RUDClienteGUI()
+        self.RUDClienteGUI.show()
+        self.RUDClienteGUI.pushButton.clicked.connect(self.modificaCliente)
+        self.RUDClienteGUI.pushButton_2.clicked.connect(self.visualizzaCliente)
+        self.RUDClienteGUI.pushButton_3.clicked.connect(self.eliminaCliente)
+        self.RUDClienteGUI.pushButton_4.clicked.connect(self.chiudiTutto)
+
+    def modificaClienteSel(self):
+        self.RUDClienteGUI.close()
+        lista=[]
+        for cliente in self.listaClienti:
+            lista.append(cliente.nomeCognome)
+        self.sceltaClienteGUI=SceltaClienteGUI(lista)
+        self.sceltaClienteGUI.show()
+        self.sceltaClienteGUI.pushButton.clicked.connect(self.chiudiTutto)
+        self.sceltaClienteGUI.pushButton_2.clicked.connect(self.modificaCliente)
+
+    def modificaCliente(self):
+        self.appoggioNome=self.sceltaClienteGUI.comboBox.currentText()
+        self.sceltaClienteGUI.close()
+        for cliente in self.listaClienti:
+            if cliente.nomeCognome==self.appoggioNome:
+                self.clienteScelto=cliente
+        self.CCScelta.id=self.clienteScelto.id
+        self.CCScelta.leggiCartella()
+        self.modificaClienteGUI=ModificaClienteGUI(self.clienteScelto,self.CCScelta)
+        self.modificaClienteGUI.show()
+        self.modificaClienteGUI.pushButton.clicked.connect(self.aggiornaCliente)
+        self.modificaClienteGUI.pushButton_2.clicked.connect(self.chiudiTutto)
+
+    def aggiornaCliente(self):
+        self.clienteScelto.nomeCognome=self.modificaClienteGUI.lineEdit.text()
+        self.clienteScelto.email=self.modificaClienteGUI.lineEdit_2.text()
+        self.clienteScelto.numeroDiTelefono=self.modificaClienteGUI.lineEdit_3.text()
+        self.modificaClienteGUI.close()
+        for cliente in self.listaClienti:
+            if self.appoggioNome==cliente.nomeCognome:
+                self.listaClienti.remove(cliente)
+                self.listaClienti.append(self.clienteScelto)
+        self.segreteria.listaClienti=self.listaClienti
+        self.segreteria.salvaClienti()
+        self.menu.show()
+
+    def visualizzaClienteSel(self):
+        self.RUDClienteGUI.close()
+        lista = []
+        for cliente in self.listaClienti:
+            lista.append(cliente.nomeCognome)
+        self.sceltaClienteGUI = SceltaClienteGUI(lista)
+        self.sceltaClienteGUI.show()
+        self.sceltaClienteGUI.pushButton.clicked.connect(self.chiudiTutto)
+        self.sceltaClienteGUI.pushButton_2.clicked.connect(self.visualizzaCliente)
+
+    def visualizzaCliente(self):
+        self.appoggioNome = self.sceltaClienteGUI.comboBox.currentText()
+        self.sceltaClienteGUI.close()
+        for cliente in self.listaClienti:
+            if cliente.nomeCognome==self.appoggioNome:
+                self.clienteScelto=cliente
+
+
+
 
 
 
