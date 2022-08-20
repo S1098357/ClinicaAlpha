@@ -33,6 +33,7 @@ class SegreteriaGUI:
         self.MessaggioGUI=None
         self.ricevuta=Ricevuta()
         self.ricevutaGUI=None
+        self.modificaOraroDottoreGUI=None
 
     def Menu(self):
         self.menu.show()
@@ -253,6 +254,38 @@ class SegreteriaGUI:
             for cliente in self.listaClienti:
                 cliente.messaggio.append(self.MessaggioGUI.textEdit.toPlainText())
                 self.clienteScelto.salvaMessaggio()
+
+    def modificaOrarioDottore(self):
+        self.menu.hide()
+        lista=[]
+        for dottore in self.listaDottori:
+            lista.append(dottore.nomeCognome)
+        self.modificaOraroDottoreGUI=ModificaOrarioDottoreGUI(lista)
+        self.modificaOraroDottoreGUI.show()
+        self.modificaOraroDottoreGUI.pushButton.clicked.connect(self.modificaOrario)
+        self.modificaOraroDottoreGUI.pushButton_2.clicked.connect(self.chiudiTutto)
+
+    def modificaOrario(self):
+        data,giornoSett=self.modificaOraroDottoreGUI.currentText().split(' ')
+        match giornoSett:
+            case 'lunedì':
+                appoggio = 0
+            case 'martedì':
+                appoggio = 1
+            case 'mercoledì':
+                appoggio = 2
+            case 'giovedì':
+                appoggio = 3
+            case 'venerdì':
+                appoggio = 4
+        for dottore in self.listaDottori:
+            if dottore.nomeCognome==self.modificaOraroDottoreGUI.comboBox.currentText():
+                dottore.orarioLavoro[appoggio]=datetime.strptime(data,'%m/%d/%Y')
+                self.modificaOraroDottoreGUI.close()
+                dottore.salvaOrari()
+        self.menu.show()
+
+
 
 
 
