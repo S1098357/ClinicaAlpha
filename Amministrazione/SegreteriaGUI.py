@@ -30,6 +30,9 @@ class SegreteriaGUI:
         self.modificaClienteGUI=None
         self.appoggioNome=''
         self.visualizzaClienteGUI=None
+        self.MessaggioGUI=None
+        self.ricevuta=Ricevuta()
+        self.ricevutaGUI=None
 
     def Menu(self):
         self.menu.show()
@@ -38,7 +41,7 @@ class SegreteriaGUI:
         self.menu.pushButton_3.clicked.connect(self.visualizzaEliminaPren)
         self.menu.pushButton_4.clicked.connect(self.RUDCliente)
         self.menu.pushButton_5.clicked.connect(self.visualizzaStanze)
-        self.menu.pushButton_6.clicked.connect(self.inviaMessaggio)
+        self.menu.pushButton_6.clicked.connect(self.scriviMessaggio)
         self.menu.pushButton_7.clicked.connect(self.richiediPagamento)
         self.menu.pushButton_8.clicked.connect(self.modificaOrarioDottore)
 
@@ -131,9 +134,18 @@ class SegreteriaGUI:
             self.certificato=self.segreteria.leggiCertificato
             self.richiediPagamentoGUI=self.richiediPagamentoGUI(self.certificato.prezzo)
             self.richiediPagamentoGUI.show()
-            self.richiediPagamentoGUI.pushButton.clicked.connect(self.chiudiTutto)
+            self.richiediPagamentoGUI.pushButton.clicked.connect(self.self.emettiRicevuta)
+            self.richiediPagamentoGUI.pushButton_2.clicked.connect(self.chiudiTutto)
         else:
             self.chiudiTutto()
+
+    def emettiRicevuta(self):
+        self.ricevuta.prezzo=self.certificato.prezzo
+        self.richiediPagamentoGUI.close()
+        self.ricevuta.salva()
+        self.ricevutaGUI=RicevutaGUI(self.ricevuta)
+        self.ricevutaGUI.show()
+        self.ricevutaGUI.pushButton.clicked.connect(self.chiudiTutto)
 
     def RUDCliente(self):
         self.menu.hide()
@@ -217,6 +229,33 @@ class SegreteriaGUI:
         self.segreteria.listaClienti = self.listaClienti
         self.segreteria.salvaClienti()
         self.menu.show()
+
+    def scriviMessaggio(self):
+        self.menu.hide()
+        self.RUDClienteGUI.close()
+        lista = []
+        for cliente in self.listaClienti:
+            lista.append(cliente.nomeCognome)
+        lista.insert(0,'invia a tutti')
+        self.MessaggioGUI=MessaggioGUI(lista)
+        self.MessaggioGUI.show()
+        self.MessaggioGUI.pushButton.clicked.connect(self.inviaMessaggio)
+        self.MessaggioGUI.pushButton_2.clicked.connect(self.chiudiTutto)
+
+    def inviaMessaggio(self):
+        if self.MessaggioGUI.comboBox.currentText()!='invia a tutti':
+            for cliente in self.listaClienti:
+                if cliente.nomeCognome==self.MessaggioGUI.comboBox.currentText():
+                    self.clienteScelto=cliente
+            self.clienteScelto.messaggio.append(self.MessaggioGUI.textEdit.toPlainText())
+            self.clienteScelto.salvaMessaggio()
+        else:
+            for cliente in self.listaClienti:
+                cliente.messaggio.append(self.MessaggioGUI.textEdit.toPlainText())
+                self.clienteScelto.salvaMessaggio()
+
+
+
 
 
 

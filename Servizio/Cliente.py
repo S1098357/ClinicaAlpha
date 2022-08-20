@@ -36,7 +36,7 @@ class Cliente:
         self.numeroDiTelefono = ""
         self.codiceFiscale = ""
         self.id = 0
-        #self.messaggio = []
+        self.messaggio = []
         #self.prenotazione = Prenotazione()
         #self.promemoria=''
         self.listaPrenotazioniCliente = []
@@ -146,9 +146,6 @@ class Cliente:
             Sistema.salvaPrenotazioni(pren.stampaPrenotazione)
         self.menuCliente()
 
-
-
-
     def selezionaDataOra(self,listaPrenotazioni, listaDottori):
         delta=datetime.time(minute=15)
         lista2 = []
@@ -207,3 +204,19 @@ class Cliente:
                     self.visualizzaPrenotazione(listaPrenotazioni)
                 case 4:
                     self.visualizzaInfoMedico(listaDottori)
+
+    def salvaMessaggio(self):
+        if os.path.isfile('dati/Messaggi/messaggio'+self.nomeCognome+'.pickle'):
+            with open('dati/Messaggi/messaggio'+self.nomeCognome+'.pickle', 'a+') as f:
+                pickle.dump(self.messaggio, f, pickle.HIGHEST_PROTOCOL)
+        else:
+            with open('dati/Messaggi/messaggio'+self.nomeCognome+'.pickle', 'wb+') as f:
+                pickle.dump(self.messaggio, f, pickle.HIGHEST_PROTOCOL)
+
+    def leggiMessaggio(self):
+        if os.path.isfile('dati/Messaggi/messaggio'+self.nomeCognome+'.pickle'):
+            with open('dati/Messaggi/messaggio'+self.nomeCognome+'.pickle', 'rb+') as f:
+                self.messaggio = pickle.load(f)
+            return self.messaggio
+        else :
+            return False

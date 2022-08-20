@@ -110,7 +110,7 @@ class DottoreGUI:
         self.ricettaGUI=CompilaRicettaGUI(self.clienteAttuale.nomeCognome,self.nomeCognome)
         self.ricettaGUI.show()
         self.ricettaGUI.pushButton.clicked.connect(self.inviaRicettaSegreteria)
-        self.ricettaGUI.pushButton_2.clicked.connect(self.menu.show)
+        self.ricettaGUI.pushButton_2.clicked.connect(self.chiudiTutto)
 
     def inviaRicettaSegreteria(self):
         self.ricettaGUI.hide()
