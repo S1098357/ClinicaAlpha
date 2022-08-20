@@ -266,7 +266,7 @@ class SegreteriaGUI:
         self.modificaOraroDottoreGUI.pushButton_2.clicked.connect(self.chiudiTutto)
 
     def modificaOrario(self):
-        data,giornoSett=self.modificaOraroDottoreGUI.currentText().split(' ')
+        '''data,giornoSett=self.modificaOraroDottoreGUI.currentText().split(' ')
         match giornoSett:
             case 'lunedì':
                 appoggio = 0
@@ -283,6 +283,10 @@ class SegreteriaGUI:
                 dottore.orarioLavoro[appoggio]=datetime.strptime(data,'%m/%d/%Y')
                 self.modificaOraroDottoreGUI.close()
                 dottore.salvaOrari()
+        self.menu.show()'''
+        for dottore in self.listaDottori:
+            if dottore.nomeCognome==self.modificaOraroDottoreGUI.comboBox.currentText():
+                dottore.salvaOrari(self.modificaOraroDottoreGUI.currentText())
         self.menu.show()
 
 

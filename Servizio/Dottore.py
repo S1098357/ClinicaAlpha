@@ -120,9 +120,13 @@ class Dottore:
         else:
             self.clienteAttuale=None
 
-    def salvaOrari(self):
-        with open ('dati/Orari'+self.nomeCognome+'.pickle' , 'wb+') as f:
-            pickle.dump(self.OrarioLavoro,f,pickle.HIGHEST_PROTOCOL)
+    def salvaOrari(self,orario):
+        if open('dati/Orari' + self.nomeCognome + '.pickle', 'a+'):
+            with open ('dati/Orari'+self.nomeCognome+'.pickle' , 'a+') as f:
+                pickle.dump(orario,f,pickle.HIGHEST_PROTOCOL)
+        else:
+            with open ('dati/Orari'+self.nomeCognome+'.pickle' , 'wb+') as f:
+                pickle.dump(orario,f,pickle.HIGHEST_PROTOCOL)
 
     def leggiOrari(self):
         if open('dati/Orari'+self.nomeCognome+'.pickle', 'rb'):
