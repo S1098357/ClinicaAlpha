@@ -19,6 +19,7 @@ class Dottore:
         self.numeroDiTelefono=numTelefono
         self.OrarioLavoro=[datetime.time(10),datetime.time(10),datetime.time(10),datetime.time(10),datetime.time(10)]
         self.listaCartelleCliniche=[]
+        self.modificheOrario=[]
 
     def ricercaCartellaClinica(self,id):
         for CC in self.listaCartelleCliniche:
@@ -129,8 +130,31 @@ class Dottore:
                 pickle.dump(orario,f,pickle.HIGHEST_PROTOCOL)
 
     def leggiOrari(self):
+        from datetime import datetime
+
         if open('dati/Orari'+self.nomeCognome+'.pickle', 'rb'):
             with open('dati/Orari'+self.nomeCognome+'.pickle', 'rb') as f:
-                self.OrarioLavoro= pickle.load(f)
+                self.modificheOrario = pickle.load(f)
+            for modifica in self.modificheOrario:
+                data, giornoSett = modifica.split(' ')
+                giornoSett,orario=giornoSett.split(' ')
+                if data<datetime.now().date():
+                    self.modificheOrario.remove(modifica)
+                    self.salvaOrari(self.modificheOrario)
+                else:
+                    diff=data-datetime.now().date()
+                    if data.weekday()>datetime.now().weekday():
+                        posto=diff.days
+                    else:
+                        posto=diff.days-2
+                    match orario:
+                        case '9.00':
+                            self.OrarioLavoro[posto]=datetime.time(9)
+                        case '10.00':
+                            self.OrarioLavoro[posto] = datetime.time(10)
+                        case '11.00':
+                            self.OrarioLavoro[posto] = datetime.time(11)
+                        case '12.00':
+                            self.OrarioLavoro[posto] = datetime.time(12)
         else:
             return False

@@ -286,7 +286,7 @@ class SegreteriaGUI:
         self.menu.show()'''
         for dottore in self.listaDottori:
             if dottore.nomeCognome==self.modificaOraroDottoreGUI.comboBox.currentText():
-                dottore.salvaOrari(self.modificaOraroDottoreGUI.currentText())
+                dottore.salvaOrari(self.modificaOraroDottoreGUI.comboBox_2.currentText()+' '+self.modificaOraroDottoreGUI.comboBox_3.currentText())
         self.menu.show()
 
 
