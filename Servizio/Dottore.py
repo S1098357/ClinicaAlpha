@@ -156,5 +156,6 @@ class Dottore:
                             self.OrarioLavoro[posto] = datetime.time(11)
                         case '12.00':
                             self.OrarioLavoro[posto] = datetime.time(12)
+            return True
         else:
             return False
