@@ -1,6 +1,7 @@
 import datetime
 
 #from Amministrazione.Segreteria import Segreteria
+import os.path
 
 from Servizio.CertificatoMalattia import CertificatoMalattia
 from Servizio.CertificatoMedicoAgonistico import CertificatoMedicoAgonistico
@@ -132,7 +133,7 @@ class Dottore:
     def leggiOrari(self):
         from datetime import datetime
 
-        if open('dati/Orari'+self.nomeCognome+'.pickle', 'rb'):
+        if os.path.isfile('dati/Orari'+self.nomeCognome+'.pickle'):
             with open('dati/Orari'+self.nomeCognome+'.pickle', 'rb') as f:
                 self.modificheOrario = pickle.load(f)
             for modifica in self.modificheOrario:

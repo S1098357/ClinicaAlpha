@@ -58,7 +58,7 @@ class ClienteGUI:
         giorno=None
         appoggio=None
         from datetime import date,timedelta
-        while i<28:
+        while i<7:
             giorno=(date.today()+timedelta(days=i))
             if giorno.weekday()!=6 and giorno.weekday()!=5:
                 if giorno.weekday() == 0:
@@ -212,6 +212,7 @@ class ClienteGUI:
         lista=[]
         for dottore in listaDottori:
             if dottore.nomeCognome == self.nomeDottore:
+                dottore.leggiOrari()
                 lista.append(datetime.datetime.combine(self.appoggioDatetime.date(),dottore.OrarioLavoro[self.appoggio]))
         k=0
         while k <= 23:
