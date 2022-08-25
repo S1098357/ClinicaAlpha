@@ -77,7 +77,7 @@ class Segreteria:
                 Ricevuta.salva (prezzo)
 
     def eliminaCartellaClinica(self,id):
-        os.remove('dati/CC/cartella' + str(self.id) + '.pickle')
+        os.remove('dati/CC/cartella' + str(id) + '.pickle')
 
     def inviaMessaggioSingolo(self):
         messaggio, nome = MessaggioGUI(self.listaClienti)

@@ -8,6 +8,7 @@ from Servizio.Cliente import Cliente
 from Servizio.ClienteGUI import ClienteGUI
 from Servizio.Dottore import Dottore
 from Servizio.DottoreGUI import DottoreGUI
+from Amministrazione.SegreteriaGUI import SegreteriaGUI
 
 
 class LoginGUI(QDialog):
@@ -59,11 +60,13 @@ class LoginGUI(QDialog):
         self.hide()
         self.clienteGUI = ClienteGUI(self.cliente,self.idAttuale)
         self.clienteGUI.registrazioneDati()
+        self.segreteriaGUI=None
 
     def prosegui(self):
         if self.username == 'segreteria' and self.password == 'seg':
             self.accesso = 'segreteria'
-            self.segreteria.menuSegreteria()
+            self.segreteriaGUI=SegreteriaGUI()
+            self.segreteriaGUI.Menu()
         for dottore in self.calendario.Dottori:
             if self.username == dottore.nomeCognome and self.password == 'doc':
                 self.accesso = 'dottore'

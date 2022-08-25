@@ -1,4 +1,39 @@
 import datetime
+import os.path
+
+from Amministrazione.Segreteria import Segreteria
+from Amministrazione.Sistema import Sistema
+from Amministrazione.Calendario import Calendario
+from Amministrazione.Stanza import Stanza
+from Servizio.Cliente import Cliente
+from Servizio.Dottore import Dottore
+from Servizio.CartellaClinica import CartellaClinica
+from Servizio.CertificatoMedico import CertificatoMedico
+from Servizio.Documento import Documento
+from Servizio.Prenotazione import Prenotazione
+from Servizio.Ricetta import Ricetta
+from Servizio.Ricevuta import Ricevuta
+from GUI.MenuSegreteriaGUI import MenuSegreteriaGUI
+from GUI.EliminaCCGUI import EliminaCCGUI
+from GUI.VisualizzaEliminaPrenGUI import VisualizzaEliminaPrenGUI
+from GUI.VisualizzaTuttePrenotazioniGUI import VisualizzaTuttePrenotazioniGUI
+from GUI.EliminaPrenotazioneGUI import EliminaPrenotazioneGUI
+from GUI.MenuStampaGUI import MenuStampaGUI
+from GUI.StampaRicettaGUI import StampaRicettaGUI
+from GUI.StampaCertificatoGUI import StampaCertificatoGUI
+from GUI.RichiediPagamentoGUI import RichiediPagamentoGUI
+from GUI.RUDClienteGUI import RUDClienteGUI
+from GUI.SceltaClienteGUI import SceltaClienteGUI
+from GUI.ModificaClienteGUI import ModificaClienteGUI
+from GUI.VisualizzaClienteSingoloGUI import VisualizzaClienteSingoloGUI
+from GUI.MessaggioGUI import MessaggioGUI
+from GUI.RicevutaGUI import RicevutaGUI
+from GUI.ModificaOrarioDottoreGUI import ModificaOrarioDottoreGUI
+from GUI.MenuStanzeGUI import MenuStanzeGUI
+from GUI.StanzaGUI import StanzaGUI
+
+
+
 
 
 class SegreteriaGUI:
@@ -7,7 +42,7 @@ class SegreteriaGUI:
         self.segreteria=Segreteria()
         self.segreteria.leggiClienti()
         self.listaClienti=self.segreteria.listaClienti
-        self.caledario=Calendario()
+        self.calendario=Calendario()
         self.sistema=Sistema(self.calendario.Dottori)
         self.sistema.leggiPrenotazioni()
         self.listaDottori=self.calendario.Dottori
@@ -23,13 +58,13 @@ class SegreteriaGUI:
         self.menuStampaGUI=None
         self.ricetta=Ricetta()
         self.stampaRicettaGUI=None
-        self.certificato=Certificato()
+        self.certificato=CertificatoMedico()
         self.stampaCertificatoGUI=None
         self.richiediPagamentoGUI=None
         self.RUDClienteGUI=None
         self.sceltaClienteGUI=None
         self.clienteScelto=Cliente()
-        self.CCScelta=CartellaClinica()
+        self.CCScelta=CartellaClinica(0)
         self.modificaClienteGUI=None
         self.appoggioNome=''
         self.visualizzaClienteGUI=None
@@ -38,6 +73,7 @@ class SegreteriaGUI:
         self.ricevutaGUI=None
         self.modificaOraroDottoreGUI=None
         self.menuStanzeGUI=None
+        self.stanzaGUI=None
 
     def Menu(self):
         self.menu.show()
@@ -51,18 +87,56 @@ class SegreteriaGUI:
         self.menu.pushButton_8.clicked.connect(self.modificaOrarioDottore)
 
     def chiudiTutto(self):
-        pass
+        if self.eliminaCCGUI!=None:
+            self.eliminaCCGUI.close()
+        if self.VisualizzaEliminaPrenGUI!=None:
+            self.VisualizzaEliminaPrenGUI.close()
+        if self.visualizzaListaPrenGUI != None:
+            self.visualizzaListaPrenGUI.close()
+        if self.eliminaPrenGUI != None:
+            self.eliminaPrenGUI.close()
+        if self.menuStampaGUI != None:
+            self.menuStampaGUI.close()
+        if self.stampaRicettaGUI != None:
+            self.stampaRicettaGUI.close()
+        if self.stampaCertificatoGUI != None:
+            self.stampaCertificatoGUI.close()
+        if self.richiediPagamentoGUI != None:
+            self.richiediPagamentoGUI.close()
+        if self.RUDClienteGUI != None:
+            self.RUDClienteGUI.close()
+        if self.sceltaClienteGUI != None:
+            self.sceltaClienteGUI.close()
+        if self.modificaClienteGUI != None:
+            self.modificaClienteGUI.close()
+        if self.visualizzaClienteGUI != None:
+            self.visualizzaClienteGUI.close()
+        if self.MessaggioGUI != None:
+            self.MessaggioGUI.close()
+        if self.ricevutaGUI != None:
+            self.ricevutaGUI.close()
+        if self.modificaOraroDottoreGUI != None:
+            self.modificaOraroDottoreGUI.close()
+        if self.menuStanzeGUI != None:
+            self.menuStanzeGUI.close()
+        if self.stanzaGUI != None:
+            self.stanzaGUI.close()
+        self.menu.show()
 
     def eliminaCC(self):
         self.menu.hide()
-        self.eliminaCCGUI=EliminaCCGUI(self.listaId)
+        lista=[]
+        for id in self.listaId:
+            if os.path.isfile('dati/CC/cartella' + str(id) + '.pickle'):
+                lista.append(str(id))
+        self.eliminaCCGUI=EliminaCCGUI(lista)
         self.eliminaCCGUI.show()
         self.eliminaCCGUI.pushButton.clicked.connect(self.rimuoviCC)
         self.eliminaCCGUI.pushButton_2.clicked.connect(self.chiudiTutto)
 
     def rimuoviCC(self):
         self.eliminaCCGUI.close()
-        self.segreteria.eliminaCartellaClinica(eliminaCCGUI.comboBox.currentText())
+        self.segreteria.eliminaCartellaClinica(self.eliminaCCGUI.comboBox.currentText())
         self.menu.show()
 
     def stampaDocumenti(self):
