@@ -34,13 +34,13 @@ class Sistema:
             return False
 
     def leggiPrenotazioni(self):
-        with open('dati/Prenotazioni.pickle', 'rb+') as f:
-            self.listaPrenotazioni = pickle.load(f)
-        for prenotazione in self.listaPrenotazioni:
-            if prenotazione.dataOra.date()<datetime.datetime.today().date():
-                self.listaPrenotazioni.remove(prenotazione)
         if self.listaPrenotazioni==None:
             self.listaPrenotazioni=[]
+        with open('dati/Prenotazioni.pickle', 'rb+') as f:
+            lista = pickle.load(f)
+        for prenotazione in lista:
+            if prenotazione.dataOra.date()>datetime.datetime.today().date() or prenotazione.dataOra.date()==datetime.datetime.today().date() :
+                self.listaPrenotazioni.append(prenotazione)
 
     def salvaPrenotazioni(self):
         #appoggio = {}
