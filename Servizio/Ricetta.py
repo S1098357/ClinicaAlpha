@@ -16,8 +16,8 @@ class Ricetta(Documento):
         self.farmacoPrescritto=farmacoPrescritto
 
     def stampaRicetta(self):
-        ricetta=self.StampaDocumento()
-        ricetta['farmaco prescritto']=self.farmacoPrescritto
+        #ricetta=self.StampaDocumento()
+        #ricetta['farmaco prescritto']=self.farmacoPrescritto
        # if os.path.isfile('dati/Ricetta.pickle'):
         with open ('dati/Ricetta.pickle', 'wb+') as f:
                 pickle.dump(self,f,pickle.HIGHEST_PROTOCOL)

@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QDialog
 from PyQt5.uic import loadUi
 
 
-class VisualizzaCertificatoGUI:
+class VisualizzaCertificatoGUI(QDialog):
 
     def __init__(self,certificato):
         super(VisualizzaCertificatoGUI, self).__init__()

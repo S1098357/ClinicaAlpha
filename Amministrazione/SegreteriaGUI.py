@@ -31,7 +31,8 @@ from GUI.RicevutaGUI import RicevutaGUI
 from GUI.ModificaOrarioDottoreGUI import ModificaOrarioDottoreGUI
 from GUI.MenuStanzeGUI import MenuStanzeGUI
 from GUI.StanzaGUI import StanzaGUI
-
+from GUI.VisualizzaRicettaGUI import VisualizzaRicettaGUI
+from GUI.VisualizzaCertificatoGUI import VisualizzaCertificatoGUI
 
 
 
@@ -149,7 +150,7 @@ class SegreteriaGUI:
 
     def stampaRicetta(self):
         self.menuStampaGUI.hide()
-        if self.segreteria.leggiRicetta!=False:
+        if self.segreteria.leggiRicetta()!=None:
             self.ricetta=self.segreteria.leggiRicetta()
             self.stampaRicettaGUI = VisualizzaRicettaGUI(self.ricetta)
             self.stampaRicettaGUI.show()
@@ -159,8 +160,8 @@ class SegreteriaGUI:
 
     def stampaCertificato(self):
         self.menuStampaGUI.hide()
-        if self.segreteria.leggiCertificato != False:
-            self.certificato=self.segreteria.leggiCertificato
+        if self.segreteria.leggiCertificato() != False:
+            self.certificato=self.segreteria.leggiCertificato()
             self.stampaCertificatoGUI=VisualizzaCertificatoGUI(self.certificato)
             if self.certificato.prezzo==50.00:
                 self.stampaCertificatoGUI.textBrowser.setText('Si attesta l''idoneità fisica del paziente allo sport agonistico')

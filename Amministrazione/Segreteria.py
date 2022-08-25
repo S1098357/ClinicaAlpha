@@ -7,6 +7,7 @@ import pickle
 from Amministrazione.Calendario import Calendario
 from Amministrazione.Sistema import Sistema
 from Servizio.Cliente import Cliente
+from Servizio.Ricetta import Ricetta
 
 '''from GUI.AnnuncioMessaggioGUI import AnnuncioMessaggioGUI
 from GUI.EliminaCCGUI import EliminaCCGUI
@@ -184,18 +185,18 @@ class Segreteria:
         if os.path.isfile('dati/Certificati.pickle'):
             with open('dati/Certificati.pickle', 'rb+') as f:
                 certificato = pickle.load(f)
-            StampaCertificatoGUI(certificato)
-            self.menuSegreteria()
+            return certificato
         else :
-            self.errore()
+            return False
 
     def leggiRicetta(self):
         if os.path.isfile('dati/Ricetta.pickle'):
             with open('dati/Ricetta.pickle', 'rb+') as f:
+                ricetta=Ricetta()
                 ricetta = pickle.load(f)
             return ricetta
         else :
-            return False
+            return None
 
     def visualizzaCliente(self):
         risposta=SceltaVisualizzaClienteGUI()
