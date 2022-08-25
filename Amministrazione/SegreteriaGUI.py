@@ -169,7 +169,8 @@ class SegreteriaGUI:
                 self.stampaCertificatoGUI.textBrowser.setText('Si attesta lo stato di malattia del paziente')
             else:
                 self.stampaCertificatoGUI.textBrowser.setText('Si attesta lo stato di buona salute del paziente')
-                self.stampaCertificatoGUI.pushButton.clicked.connect(self.chiudiTutto)
+            self.stampaCertificatoGUI.show()
+            self.stampaCertificatoGUI.pushButton.clicked.connect(self.chiudiTutto)
         else:
             self.chiudiTutto()
 
