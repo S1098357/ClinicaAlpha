@@ -45,7 +45,6 @@ class SegreteriaGUI:
         self.listaClienti=self.segreteria.listaClienti
         self.calendario=Calendario()
         self.sistema=Sistema(self.calendario.Dottori)
-        self.sistema.leggiPrenotazioni()
         self.listaDottori=self.calendario.Dottori
         self.menu=MenuSegreteriaGUI()
         self.listaId=[]
@@ -192,7 +191,7 @@ class SegreteriaGUI:
         self.VisualizzaEliminaPrenGUI.close()
         lista=[]
         for prenotazione in self.sistema.listaPrenotazioni:
-            lista.append(prenotazione.cliente+' : '+ prenotazione.dataOra.strftime('%y-%m-%d %H:%M'))
+            lista.append(prenotazione.cliente+' , '+ prenotazione.dataOra.strftime('%y-%m-%d %H:%M'))
         self.eliminaPrenGUI=EliminaPrenotazioneGUI(lista)
         self.eliminaPrenGUI.show()
         self.eliminaPrenGUI.pushButton.clicked.connect(self.rimuoviPren)
@@ -200,14 +199,17 @@ class SegreteriaGUI:
 
     def rimuoviPren(self):
         appoggio=self.eliminaPrenGUI.comboBox.currentText()
-        self.eliminaPrenGUI.close()
-        appoggio=appoggio[':']
-        appoggio=appoggio[' ']
-        for prenotazione in self.sistema.listaPrenotazioni:
-            if prenotazione.dataOra==datetime.strptime(appoggio,'%y-%m-%d %H:%M'):
-                sistema.listaPrenotazioni.remove(prenotazione)
-        self.sistema.salvaPrenotazioni()
-        self.menu.show()
+        if appoggio!='':
+            self.eliminaPrenGUI.close()
+            x,appoggio=appoggio.split(',')
+            appoggio=appoggio[1:]
+            for prenotazione in self.sistema.listaPrenotazioni:
+                if prenotazione.dataOra==datetime.datetime.strptime(appoggio,'%y-%m-%d %H:%M'):
+                    self.sistema.listaPrenotazioni.remove(prenotazione)
+            self.sistema.salvaPrenotazioni()
+            self.menu.show()
+        else:
+            self.chiudiTutto()
 
     def richiediPagamento(self):
         self.menu.hide()

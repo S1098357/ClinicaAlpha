@@ -6,7 +6,7 @@ class EliminaPrenotazioneGUI(QDialog):
 
     def __init__(self, listaPrenotazioniCliente):
         super(EliminaPrenotazioneGUI,self).__init__()
-        loadUi("EliminaPrenotazione.ui", self)
+        loadUi("GUI/EliminaPrenotazione.ui", self)
         self.comboBox.addItems(listaPrenotazioniCliente)
 
 
