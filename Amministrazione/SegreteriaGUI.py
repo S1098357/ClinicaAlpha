@@ -370,7 +370,9 @@ class SegreteriaGUI:
         self.menu.show()'''
         for dottore in self.listaDottori:
             if dottore.nomeCognome==self.modificaOraroDottoreGUI.comboBox.currentText():
-                dottore.salvaOrari(self.modificaOraroDottoreGUI.comboBox_2.currentText()+' '+self.modificaOraroDottoreGUI.comboBox_3.currentText())
+                orario=self.modificaOraroDottoreGUI.comboBox_2.currentText()+' '+self.modificaOraroDottoreGUI.comboBox_3.currentText()
+                dottore.salvaOrari(orario)
+        self.modificaOraroDottoreGUI.close()
         self.menu.show()
 
     def visualizzaStanze(self):
@@ -386,45 +388,53 @@ class SegreteriaGUI:
     def dettagliStanza1(self):
         self.menuStanzeGUI.close()
         self.stanzaGUI=StanzaGUI()
-        orarioLibera=self.listaDottori[0].OrarioLavoro[0]+datetime.timedelta(hours=6)
+        dataLibera=datetime.datetime.combine(datetime.date.today(),self.listaDottori[0].OrarioLavoro[0])+datetime.timedelta(hours=6)
+        orarioLibera=dataLibera.time()
         if datetime.datetime.now().time()>self.listaDottori[0].OrarioLavoro[0] and datetime.datetime.now().time()<orarioLibera:
             self.stanzaGUI.label_2.setText('Occupata')
             self.stanzaGUI.label_3.setText('La stanza si svuoterà alle '+orarioLibera.strftime('%H:%M:%S'))
         else:
             self.stanzaGUI.label_2.setText('Libera')
+        self.stanzaGUI.show()
         self.stanzaGUI.pushButton.clicked.connect(self.chiudiTutto)
 
     def dettagliStanza2(self):
         self.menuStanzeGUI.close()
         self.stanzaGUI=StanzaGUI()
-        orarioLibera=self.listaDottori[1].OrarioLavoro[0]+datetime.timedelta(hours=6)
+        dataLibera=datetime.datetime.combine(datetime.date.today(),self.listaDottori[1].OrarioLavoro[0])+datetime.timedelta(hours=6)
+        orarioLibera=dataLibera.time()
         if datetime.datetime.now().time()>self.listaDottori[1].OrarioLavoro[0] and datetime.datetime.now().time()<orarioLibera:
             self.stanzaGUI.label_2.setText('Occupata')
             self.stanzaGUI.label_3.setText('La stanza si svuoterà alle '+orarioLibera.strftime('%H:%M:%S'))
         else:
             self.stanzaGUI.label_2.setText('Libera')
+        self.stanzaGUI.show()
         self.stanzaGUI.pushButton.clicked.connect(self.chiudiTutto)
 
     def dettagliStanza3(self):
         self.menuStanzeGUI.close()
         self.stanzaGUI=StanzaGUI()
-        orarioLibera=self.listaDottori[2].OrarioLavoro[0]+datetime.timedelta(hours=6)
+        dataLibera = datetime.datetime.combine(datetime.date.today(),self.listaDottori[2].OrarioLavoro[0]) + datetime.timedelta(hours=6)
+        orarioLibera = dataLibera.time()
         if datetime.datetime.now().time()>self.listaDottori[2].OrarioLavoro[0] and datetime.datetime.now().time()<orarioLibera:
             self.stanzaGUI.label_2.setText('Occupata')
             self.stanzaGUI.label_3.setText('La stanza si svuoterà alle '+orarioLibera.strftime('%H:%M:%S'))
         else:
             self.stanzaGUI.label_2.setText('Libera')
+        self.stanzaGUI.show()
         self.stanzaGUI.pushButton.clicked.connect(self.chiudiTutto)
 
     def dettagliStanza4(self):
         self.menuStanzeGUI.close()
         self.stanzaGUI=StanzaGUI()
-        orarioLibera=self.listaDottori[3].OrarioLavoro[0]+datetime.timedelta(hours=6)
+        dataLibera = datetime.datetime.combine(datetime.date.today(),self.listaDottori[3].OrarioLavoro[0]) + datetime.timedelta(hours=6)
+        orarioLibera = dataLibera.time()
         if datetime.datetime.now().time()>self.listaDottori[3].OrarioLavoro[0] and datetime.datetime.now().time()<orarioLibera:
             self.stanzaGUI.label_2.setText('Occupata')
             self.stanzaGUI.label_3.setText('La stanza si svuoterà alle '+orarioLibera.strftime('%H:%M:%S'))
         else:
             self.stanzaGUI.label_2.setText('Libera')
+        self.stanzaGUI.show()
         self.stanzaGUI.pushButton.clicked.connect(self.chiudiTutto)
 
 

@@ -8,6 +8,7 @@ from Servizio.CertificatoMedicoAgonistico import CertificatoMedicoAgonistico
 from Servizio.CertificatoSanaRobustaCostituzione import CertificatoSanaRobustaCostituzione
 from Servizio.Cliente import Cliente
 from Servizio.Ricetta import Ricetta
+import pickle
 
 
 class Dottore:
@@ -123,9 +124,9 @@ class Dottore:
             self.clienteAttuale=None
 
     def salvaOrari(self,orario):
-        if open('dati/Orari' + self.nomeCognome + '.pickle', 'a+'):
-            with open ('dati/Orari'+self.nomeCognome+'.pickle' , 'a+') as f:
-                pickle.dump(orario,f,pickle.HIGHEST_PROTOCOL)
+        if os.path.isfile('dati/Orari' + self.nomeCognome + '.pickle'):
+            with open ('dati/Orari'+self.nomeCognome+'.pickle','ab+') as f:
+                pickle.dump(orario,f)
         else:
             with open ('dati/Orari'+self.nomeCognome+'.pickle' , 'wb+') as f:
                 pickle.dump(orario,f,pickle.HIGHEST_PROTOCOL)
@@ -137,11 +138,9 @@ class Dottore:
             with open('dati/Orari'+self.nomeCognome+'.pickle', 'rb') as f:
                 self.modificheOrario = pickle.load(f)
             for modifica in self.modificheOrario:
-                data, giornoSett = modifica.split(' ')
-                giornoSett,orario=giornoSett.split(' ')
+                data,giornoSett,orario = modifica.split(' ')
                 if data<datetime.now().date():
                     self.modificheOrario.remove(modifica)
-                    self.salvaOrari(self.modificheOrario)
                 else:
                     diff=data-datetime.now().date()
                     if data.weekday()>datetime.now().weekday():
@@ -157,6 +156,11 @@ class Dottore:
                             self.OrarioLavoro[posto] = datetime.time(11)
                         case '12.00':
                             self.OrarioLavoro[posto] = datetime.time(12)
+            self.sovrascriviOrari(self.modificheOrario)
             return True
         else:
             return False
+
+    def sovrascriviOrari(self,orari):
+        with open('dati/Orari' + self.nomeCognome + '.pickle', 'wb+') as f:
+            pickle.dump(orari, f, pickle.HIGHEST_PROTOCOL)
