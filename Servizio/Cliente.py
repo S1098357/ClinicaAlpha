@@ -207,7 +207,7 @@ class Cliente:
 
     def salvaMessaggio(self):
         if os.path.isfile('dati/Messaggi/messaggio'+self.nomeCognome+'.pickle'):
-            with open('dati/Messaggi/messaggio'+self.nomeCognome+'.pickle', 'a+') as f:
+            with open('dati/Messaggi/messaggio'+self.nomeCognome+'.pickle', 'ab+') as f:
                 pickle.dump(self.messaggio, f, pickle.HIGHEST_PROTOCOL)
         else:
             with open('dati/Messaggi/messaggio'+self.nomeCognome+'.pickle', 'wb+') as f:

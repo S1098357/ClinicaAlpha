@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QDialog
 from PyQt5.uic import loadUi
 import datetime
 
-class ModificaOrarioDottoreGUI:
+class ModificaOrarioDottoreGUI(QDialog):
 
     def __init__(self,listaDottori):
         super(ModificaOrarioDottoreGUI, self).__init__()
@@ -26,7 +26,9 @@ class ModificaOrarioDottoreGUI:
                     appoggio='giovedì'
                 case 4:
                     appoggio='venerdì'
-                case 5,6:
+                case 5:
+                    appoggio='festivo'
+                case 6:
                     appoggio='festivo'
             if appoggio!='festivo':
                 lista.append(data.strftime('%m/%d/%Y')+' '+appoggio)
