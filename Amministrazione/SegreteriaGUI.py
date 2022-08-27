@@ -33,7 +33,7 @@ from GUI.MenuStanzeGUI import MenuStanzeGUI
 from GUI.StanzaGUI import StanzaGUI
 from GUI.VisualizzaRicettaGUI import VisualizzaRicettaGUI
 from GUI.VisualizzaCertificatoGUI import VisualizzaCertificatoGUI
-
+from GUI.VisualizzaClienteSingoloGUI import VisualizzaClienteSingoloGUI
 
 
 
@@ -234,9 +234,9 @@ class SegreteriaGUI:
         self.menu.hide()
         self.RUDClienteGUI=RUDClienteGUI()
         self.RUDClienteGUI.show()
-        self.RUDClienteGUI.pushButton.clicked.connect(self.modificaCliente)
-        self.RUDClienteGUI.pushButton_2.clicked.connect(self.visualizzaCliente)
-        self.RUDClienteGUI.pushButton_3.clicked.connect(self.eliminaCliente)
+        self.RUDClienteGUI.pushButton.clicked.connect(self.modificaClienteSel)
+        self.RUDClienteGUI.pushButton_2.clicked.connect(self.visualizzaClienteSel)
+        self.RUDClienteGUI.pushButton_3.clicked.connect(self.eliminaClienteSel)
         self.RUDClienteGUI.pushButton_4.clicked.connect(self.chiudiTutto)
 
     def modificaClienteSel(self):
@@ -291,9 +291,9 @@ class SegreteriaGUI:
         for cliente in self.listaClienti:
             if cliente.nomeCognome==self.appoggioNome:
                 self.clienteScelto=cliente
-        self.visualizzaClienteGUI=VisualizzaClienteGUI(self.clienteScelto)
+        self.visualizzaClienteGUI=VisualizzaClienteSingoloGUI(self.clienteScelto)
         self.visualizzaClienteGUI.show()
-        self.visualizzaClienteGUI.pushButton.clicked.connect(self.chiudiTutto)
+        self.visualizzaClienteGUI.pushButton_2.clicked.connect(self.chiudiTutto)
 
     def eliminaClienteSel(self):
         self.RUDClienteGUI.close()
@@ -306,8 +306,10 @@ class SegreteriaGUI:
         self.sceltaClienteGUI.pushButton_2.clicked.connect(self.eliminaCliente)
 
     def eliminaCliente(self):
+        self.appoggioNome = self.sceltaClienteGUI.comboBox.currentText()
+        self.sceltaClienteGUI.close()
         for cliente in self.listaClienti:
-            if self.clienteScelto.nomeCognome==cliente.nomeCognome:
+            if self.appoggioNome==cliente.nomeCognome:
                 self.listaClienti.remove(cliente)
         self.segreteria.listaClienti = self.listaClienti
         self.segreteria.salvaClienti()
