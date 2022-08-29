@@ -336,7 +336,7 @@ class SegreteriaGUI:
         else:
             for cliente in self.listaClienti:
                 cliente.messaggio.append(self.MessaggioGUI.textEdit.toPlainText())
-                cliente.salvaMessaggio()
+                cliente.salvaMessaggio(self.MessaggioGUI.textEdit.toPlainText())
         self.MessaggioGUI.close()
         self.menu.show()
 
