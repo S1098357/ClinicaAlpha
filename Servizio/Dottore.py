@@ -137,27 +137,22 @@ class Dottore:
                 pickle.dump(modifiche,f,pickle.HIGHEST_PROTOCOL)
 
     def leggiOrari(self):
-        from datetime import datetime
+        import datetime
 
         if os.path.isfile('dati/Orari'+self.nomeCognome+'.pickle'):
             with open('dati/Orari'+self.nomeCognome+'.pickle', 'rb+') as f:
                 self.modificheOrario = pickle.load(f)
             for modifica in self.modificheOrario:
-                print('x')
-                print(modifica)
                 app , giornoSett , orario = modifica.split(' ')
-                data=datetime.strptime(app,'%m/%d/%Y').date()
-                if data<datetime.now().date():
+                data=datetime.datetime.strptime(app,'%m/%d/%Y').date()
+                if data<datetime.datetime.now().date():
                     self.modificheOrario.remove(modifica)
                 else:
-                    print('si')
-                    diff = data - datetime.now().date()
-                    if data.weekday()>datetime.now().weekday():
-                        print(diff.days)
+                    diff = data - datetime.datetime.now().date()
+                    if data.weekday()>datetime.datetime.now().weekday():
                         posto=diff.days
                     else:
                         posto=diff.days-2
-                    import datetime
                     match orario:
                         case '9.00':
                             self.OrarioLavoro[posto]=datetime.time(9)
