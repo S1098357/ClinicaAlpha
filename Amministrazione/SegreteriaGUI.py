@@ -373,7 +373,6 @@ class SegreteriaGUI:
         for dottore in self.listaDottori:
             if dottore.nomeCognome==self.modificaOraroDottoreGUI.comboBox.currentText():
                 orario=self.modificaOraroDottoreGUI.comboBox_2.currentText()+' '+self.modificaOraroDottoreGUI.comboBox_3.currentText()
-                print(orario)
                 dottore.salvaOrari(orario)
         self.modificaOraroDottoreGUI.close()
         self.menu.show()

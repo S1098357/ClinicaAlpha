@@ -124,34 +124,45 @@ class Dottore:
             self.clienteAttuale=None
 
     def salvaOrari(self,orario):
+        modifiche=[]
         if os.path.isfile('dati/Orari' + self.nomeCognome + '.pickle'):
-            with open ('dati/Orari'+self.nomeCognome+'.pickle','ab+') as f:
-                pickle.dump(orario,f)
+            with open('dati/Orari' + self.nomeCognome + '.pickle', 'rb+') as f:
+                modifiche=pickle.load(f)
+                modifiche.append(orario)
+            with open ('dati/Orari'+self.nomeCognome+'.pickle','wb+') as f:
+                pickle.dump(modifiche,f)
         else:
+            modifiche.append(orario)
             with open ('dati/Orari'+self.nomeCognome+'.pickle' , 'wb+') as f:
-                pickle.dump(orario,f,pickle.HIGHEST_PROTOCOL)
+                pickle.dump(modifiche,f,pickle.HIGHEST_PROTOCOL)
 
     def leggiOrari(self):
         from datetime import datetime
 
         if os.path.isfile('dati/Orari'+self.nomeCognome+'.pickle'):
-            with open('dati/Orari'+self.nomeCognome+'.pickle', 'rb') as f:
+            with open('dati/Orari'+self.nomeCognome+'.pickle', 'rb+') as f:
                 self.modificheOrario = pickle.load(f)
             for modifica in self.modificheOrario:
-                data , giornoSett , orario = modifica.split(' ')
+                print('x')
+                print(modifica)
+                app , giornoSett , orario = modifica.split(' ')
+                data=datetime.strptime(app,'%m/%d/%Y').date()
                 if data<datetime.now().date():
                     self.modificheOrario.remove(modifica)
                 else:
-                    diff=data-datetime.now().date()
+                    print('si')
+                    diff = data - datetime.now().date()
                     if data.weekday()>datetime.now().weekday():
+                        print(diff.days)
                         posto=diff.days
                     else:
                         posto=diff.days-2
+                    import datetime
                     match orario:
                         case '9.00':
                             self.OrarioLavoro[posto]=datetime.time(9)
                         case '10.00':
-                            self.OrarioLavoro[posto] = datetime.time(10)
+                            self.OrarioLavoro[posto] =datetime.time(10)
                         case '11.00':
                             self.OrarioLavoro[posto] = datetime.time(11)
                         case '12.00':

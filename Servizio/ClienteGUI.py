@@ -255,7 +255,10 @@ class ClienteGUI:
         self.selezionaGiorno.close()
         giorno,scarto=self.selezionaGiorno.comboBox.currentText().split(' ')
         self.appoggioDatetime=datetime.strptime(giorno,'%y-%m-%d')
-        self.appoggio=self.appoggioDatetime.weekday()
+        if self.appoggioDatetime.weekday()>datetime.now().weekday():
+            self.appoggio=self.appoggioDatetime.weekday()-datetime.now().weekday()
+        else:
+            self.appoggio=datetime.now().weekday()-self.appoggioDatetime.weekday()+2
         self.richiediPrenotazione(self.sistema.listaPrenotazioni, self.sistema.listaDottori)
 
     def selezionaGiornoIndietro(self):
