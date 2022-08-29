@@ -14,6 +14,8 @@ from GUI.SelezionaPrenotazioneGUI import SelezionaPrenotazioneGUI
 from Servizio.CartellaClinica import CartellaClinica
 from Servizio.Cliente import Cliente
 from Servizio.Prenotazione import Prenotazione
+from GUI.LeggiMessaggioGUI import LeggiMessaggioGUI
+from GUI.UltimoMessaggioGUI import UltimoMessaggioGUI
 
 
 class ClienteGUI:
@@ -28,6 +30,7 @@ class ClienteGUI:
         self.id = id
         self.dottore=None
         self.prenotazione=Prenotazione()
+        self.messaggioGUI=None
 #        self.messaggio = cliente.messaggio
 #        self.prenotazione = cliente.prenotazione
        # self.promemoria = cliente.promemoria
@@ -118,10 +121,23 @@ class ClienteGUI:
         else:
             self.reg.show()
 
+    def messaggio(self):
+        self.cliente.nomeCognome=self.nomeCognome
+        self.cliente.leggiMessaggio()
+        if self.cliente.messaggio!=[]:
+            self.messaggioGUI=UltimoMessaggioGUI(self.cliente.messaggio)
+            self.messaggioGUI.show()
+            self.cliente.svuotaMessaggi()
+            self.messaggioGUI.pushButton.clicked.connect(self.menuClienteDati)
+        else:
+            self.menuClienteDati()
+
     def menuClienteDati(self):
         '''for prenotazione in self.sistema.listaPrenotazioni:
             if prenotazione.cliente==self.nomeCognome:
                 self.listaPrenotazioniCliente.append(prenotazione)'''
+        if self.messaggioGUI!=None:
+            self.messaggioGUI.close()
         self.menu.show()
         self.menu.pushButton.clicked.connect(self.ret0)
         self.menu.pushButton_2.clicked.connect(self.ret1)

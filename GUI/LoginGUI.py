@@ -78,6 +78,6 @@ class LoginGUI(QDialog):
                 self.accesso = 'cliente'
                 self.cliente = cliente
                 self.clienteGUI = ClienteGUI(self.cliente,self.cliente.id)
-                self.clienteGUI.menuClienteDati()
+                self.clienteGUI.messaggio()
         if self.accesso==None:
             self.show()

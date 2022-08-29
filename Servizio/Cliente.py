@@ -205,9 +205,12 @@ class Cliente:
                 case 4:
                     self.visualizzaInfoMedico(listaDottori)
 
-    def salvaMessaggio(self):
+    def salvaMessaggio(self,messaggio):
         if os.path.isfile('dati/Messaggi/messaggio'+self.nomeCognome+'.pickle'):
-            with open('dati/Messaggi/messaggio'+self.nomeCognome+'.pickle', 'ab+') as f:
+            with open('dati/Messaggi/messaggio'+self.nomeCognome+'.pickle', 'rb+') as f:
+                self.messaggio=pickle.load(f)
+                self.messaggio.append(messaggio)
+            with open('dati/Messaggi/messaggio'+self.nomeCognome+'.pickle', 'wb+') as f:
                 pickle.dump(self.messaggio, f, pickle.HIGHEST_PROTOCOL)
         else:
             with open('dati/Messaggi/messaggio'+self.nomeCognome+'.pickle', 'wb+') as f:
@@ -217,6 +220,11 @@ class Cliente:
         if os.path.isfile('dati/Messaggi/messaggio'+self.nomeCognome+'.pickle'):
             with open('dati/Messaggi/messaggio'+self.nomeCognome+'.pickle', 'rb+') as f:
                 self.messaggio = pickle.load(f)
-            return self.messaggio
+            return True
         else :
             return False
+
+    def svuotaMessaggi(self):
+        messaggio=[]
+        with open('dati/Messaggi/messaggio' + self.nomeCognome + '.pickle', 'wb+') as f:
+            pickle.dump(messaggio, f, pickle.HIGHEST_PROTOCOL)

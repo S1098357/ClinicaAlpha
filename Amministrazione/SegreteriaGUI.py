@@ -332,12 +332,11 @@ class SegreteriaGUI:
             for cliente in self.listaClienti:
                 if cliente.nomeCognome==self.MessaggioGUI.comboBox.currentText():
                     self.clienteScelto=cliente
-            self.clienteScelto.messaggio.append(self.MessaggioGUI.textEdit.toPlainText())
-            self.clienteScelto.salvaMessaggio()
+            self.clienteScelto.salvaMessaggio(self.MessaggioGUI.textEdit.toPlainText())
         else:
             for cliente in self.listaClienti:
                 cliente.messaggio.append(self.MessaggioGUI.textEdit.toPlainText())
-                self.clienteScelto.salvaMessaggio()
+                cliente.salvaMessaggio()
         self.MessaggioGUI.close()
         self.menu.show()
 
