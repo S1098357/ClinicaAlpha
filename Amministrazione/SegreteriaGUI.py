@@ -263,17 +263,15 @@ class SegreteriaGUI:
         self.modificaClienteGUI.pushButton_2.clicked.connect(self.chiudiTutto)
 
     def aggiornaCliente(self):
-        self.clienteScelto.nomeCognome=self.modificaClienteGUI.lineEdit.text()
-        self.clienteScelto.email=self.modificaClienteGUI.lineEdit_2.text()
-        self.clienteScelto.numeroDiTelefono=self.modificaClienteGUI.lineEdit_3.text()
-        self.modificaClienteGUI.close()
-        for cliente in self.listaClienti:
-            if self.appoggioNome==cliente.nomeCognome:
-                self.listaClienti.remove(cliente)
-                self.listaClienti.append(self.clienteScelto)
-        self.segreteria.listaClienti=self.listaClienti
-        self.segreteria.salvaClienti()
-        self.menu.show()
+        if self.clienteScelto.inserisciNomeCognome(self.modificaClienteGUI.lineEdit.text()) and self.clienteScelto.inserisciEmail(self.modificaClienteGUI.lineEdit_2.text()) and self.clienteScelto.inserisciNumeroDiTelefono(self.modificaClienteGUI.lineEdit_3.text()):
+            self.modificaClienteGUI.close()
+            for cliente in self.listaClienti:
+                if self.appoggioNome==cliente.nomeCognome:
+                    self.listaClienti.remove(cliente)
+                    self.listaClienti.append(self.clienteScelto)
+            self.segreteria.listaClienti=self.listaClienti
+            self.segreteria.salvaClienti()
+            self.menu.show()
 
     def visualizzaClienteSel(self):
         self.RUDClienteGUI.close()
