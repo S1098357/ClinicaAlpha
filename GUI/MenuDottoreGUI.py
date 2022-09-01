@@ -4,11 +4,12 @@ from PyQt5.uic import loadUi
 
 class MenuDottoreGUI(QDialog):
 
-    def __init__(self,cliente):
+    def __init__(self,cliente,nota):
         super(MenuDottoreGUI, self).__init__()
         loadUi("GUI/Menu Dottore.ui", self)
         if cliente != None:
             self.label.setText('Cliente attuale:' + cliente)
+            self.label_2.setText('Note: ' + nota)
         else:
             self.label.setText('Non ci sono altri appuntamenti')
 

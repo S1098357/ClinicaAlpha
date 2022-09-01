@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Seleziona Data e Ora</string>
+    <string>Seleziona Ora</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">

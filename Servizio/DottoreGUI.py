@@ -32,7 +32,7 @@ class DottoreGUI:
         self.OrarioLavoro = dottore.OrarioLavoro
         self.listaCartelleCliniche = dottore.listaCartelleCliniche
         self.sistema=Sistema(self.calendario.Dottori)
-        self.sistema.leggiPrenotazioni()
+        #self.sistema.leggiPrenotazioni()
         self.menu=None
         self.prenotazioneAttuale=None
         self.ricetta=Ricetta()
@@ -77,7 +77,7 @@ class DottoreGUI:
                     self.clienteAttuale=cliente
             #self.listaPrenotazioniOggi=sorted(self.listaPrenotazioniOggi)
             self.prenotazioneAttuale=self.listaPrenotazioniOggi[0]
-            self.menu=MenuDottoreGUI(self.clienteAttuale.nomeCognome)
+            self.menu=MenuDottoreGUI(self.prenotazioneAttuale.cliente,self.prenotazioneAttuale.note)
             self.Menu()
         else:
             self.menuNullo.show()
@@ -98,7 +98,8 @@ class DottoreGUI:
             for cliente in self.segreteria.listaClienti:
                 if self.prenotazioneAttuale.cliente == cliente.nomeCognome:
                     self.clienteAttuale = cliente
-            self.menu.label.setText('Cliente attuale:'+self.clienteAttuale.nomeCognome)
+            self.menu.label.setText('Cliente attuale:'+self.prenotazioneAttuale.cliente)
+            self.menu.label_2.setText('note: '+self.prenotazioneAttuale.note)
             self.menu.show()
         else:
             self.prenotazioneAttuale = None
@@ -147,12 +148,12 @@ class DottoreGUI:
     def compilaCertificato(self):
         self.CompilaCertificato=CompilaCertificatoGUI(self.clienteAttuale.nomeCognome,self.nomeCognome)
         self.CompilaCertificato.show()
-        self.tipoCertificato=self.CompilaCertificato.comboBox.currentText()
         self.CompilaCertificato.pushButton.clicked.connect(self.stampaCertificato)
         self.CompilaCertificato.pushButton_2.clicked.connect(self.chiudiTutto)
 
     def stampaCertificato(self):
         self.CompilaCertificato.hide()
+        self.tipoCertificato = self.CompilaCertificato.comboBox.currentText()
         if self.tipoCertificato=='certificato agonistico':
             self.certificato=CertificatoMedicoAgonistico()
         if self.tipoCertificato=='certificato malattia':

@@ -308,6 +308,7 @@ class SegreteriaGUI:
         self.sceltaClienteGUI.close()
         for cliente in self.listaClienti:
             if self.appoggioNome==cliente.nomeCognome:
+                self.segreteria.eliminaCartellaClinica(cliente.id)
                 self.listaClienti.remove(cliente)
         self.segreteria.listaClienti = self.listaClienti
         self.segreteria.salvaClienti()

@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Messaggio:</string>
+    <string>Messaggi:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">

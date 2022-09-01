@@ -43,11 +43,12 @@ class Cliente:
 
 
     def inserisciNomeCognome (self, nome):
-           if nome.isalpha() :
-                self.nomeCognome = nome
-                return True
-           else :
-                return False
+        stringa1, stringa2 = nome.split(' ')
+        if stringa1.isalpha() and stringa2.isalpha():
+            self.nomeCognome = nome
+            return True
+        else :
+            return False
 
     def inserisciEmail (self, email):
         if "@" in email:
@@ -58,7 +59,7 @@ class Cliente:
         return False
 
     def inserisciNumeroDiTelefono (self, numeroDiTelefono):
-        if numeroDiTelefono.isdecimal():
+        if numeroDiTelefono.isdecimal() and len(numeroDiTelefono)==10:
             self.numeroDiTelefono = numeroDiTelefono
             return True
         else:
@@ -213,6 +214,8 @@ class Cliente:
             with open('dati/Messaggi/messaggio'+self.nomeCognome+'.pickle', 'wb+') as f:
                 pickle.dump(self.messaggio, f, pickle.HIGHEST_PROTOCOL)
         else:
+            self.messaggio=[]
+            self.messaggio.append(messaggio)
             with open('dati/Messaggi/messaggio'+self.nomeCognome+'.pickle', 'wb+') as f:
                 pickle.dump(self.messaggio, f, pickle.HIGHEST_PROTOCOL)
 

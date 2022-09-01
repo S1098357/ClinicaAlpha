@@ -336,6 +336,7 @@ class ClienteGUI:
             self.selezionaPrenotazione.close()
             self.eliminaPrenotazione(self.prenotazione, self.sistema)
         else:
+            self.selezionaPrenotazione.close()
             self.menu.show()
 
     def selezionaPrenotazioneIndietro(self):

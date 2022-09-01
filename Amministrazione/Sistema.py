@@ -1,4 +1,5 @@
 import datetime
+import os.path
 import pickle
 
 from Servizio import Dottore
@@ -36,11 +37,14 @@ class Sistema:
     def leggiPrenotazioni(self):
         if self.listaPrenotazioni==None:
             self.listaPrenotazioni=[]
-        with open('dati/Prenotazioni.pickle', 'rb+') as f:
-            lista = pickle.load(f)
-        for prenotazione in lista:
-            if prenotazione.dataOra.date()>datetime.datetime.today().date() or prenotazione.dataOra.date()==datetime.datetime.today().date() :
-                self.listaPrenotazioni.append(prenotazione)
+        if os.path.isfile('dati/Prenotazioni.pickle'):
+            with open('dati/Prenotazioni.pickle', 'rb+') as f:
+                lista = pickle.load(f)
+                for prenotazione in lista:
+                    if prenotazione.dataOra.date() > datetime.datetime.today().date() or prenotazione.dataOra.date() == datetime.datetime.today().date():
+                        self.listaPrenotazioni.append(prenotazione)
+        else:
+            self.listaPrenotazioni=[]
 
     def salvaPrenotazioni(self):
         #appoggio = {}
